@@ -58,7 +58,7 @@ class User {
     }
 
     public function register() {
-        $query = "INSERT INTO" . $this->table . "
+        $query = "INSERT INTO " . $this->table . "
         ( avatar, username, password, email, phone, role) values (:avatar, :username, :password, :email, :phone, :role) ";
         
         $stmt = $this->conn->prepare($query);
@@ -109,6 +109,9 @@ class User {
 
     public function editProfile($key, $value, $id) {
         $query = "update users set " . $key . " = " . $value . " where id = " . $id . ";";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":value", $value);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         if($key === 'username') {
             setUsername($value);
         } else if($key === 'phone') {
@@ -118,5 +121,6 @@ class User {
         } else if($key === 'password') {
             setPassword($value);
         }
+        return $stmt->execute();
     }
 }
