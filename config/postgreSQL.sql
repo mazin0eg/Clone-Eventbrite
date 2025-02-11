@@ -1,5 +1,5 @@
 
-CREATE DATABASE EventBrite;
+
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     avatar VARCHAR(50),
@@ -10,18 +10,39 @@ CREATE TABLE "user" (
     role VARCHAR(20) CHECK (role IN ('admin', 'participant', 'organisateur'))
 );
 
+
+
+CREATE TABLE admin (
+    id SERIAL PRIMARY KEY,
+    additional_admin_info VARCHAR(255)
+) INHERITS ("user");
+
+CREATE TABLE participant (
+    id SERIAL PRIMARY KEY,
+    additional_participant_info VARCHAR(255)
+) INHERITS ("user");
+
+CREATE TABLE organisateur (
+    id SERIAL PRIMARY KEY,
+    additional_organisateur_info VARCHAR(255)
+) INHERITS ("user");
+
+
+
+
+
 CREATE TABLE tag (
     id SERIAL PRIMARY KEY,
     name VARCHAR(55),
     id_admin INT,
-    CONSTRAINT fk_tag_admin FOREIGN KEY (id_admin) REFERENCES "user"(id) ON DELETE SET NULL
+    CONSTRAINT fk_tag_admin FOREIGN KEY (id_admin) REFERENCES "admin"(id) ON DELETE SET NULL
 );
 
 CREATE TABLE category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(55),
     id_admin INT,
-    CONSTRAINT fk_category_admin FOREIGN KEY (id_admin) REFERENCES "user"(id) ON DELETE SET NULL
+    CONSTRAINT fk_category_admin FOREIGN KEY (id_admin) REFERENCES "admin"(id) ON DELETE SET NULL
 );
 
 CREATE TABLE event (
@@ -34,7 +55,7 @@ CREATE TABLE event (
     capacite INT,
     id_organisateur INT,
     id_category INT,
-    CONSTRAINT fk_event_organisateur FOREIGN KEY (id_organisateur) REFERENCES "user"(id) ON DELETE CASCADE,
+    CONSTRAINT fk_event_organisateur FOREIGN KEY (id_organisateur) REFERENCES "organisateur"(id) ON DELETE CASCADE,
     CONSTRAINT fk_event_category FOREIGN KEY (id_category) REFERENCES category(id) ON DELETE SET NULL
 );
 
@@ -54,5 +75,5 @@ CREATE TABLE ticket (
     id_event INT,
     id_participant INT,
     CONSTRAINT fk_ticket_event FOREIGN KEY (id_event) REFERENCES event(id) ON DELETE CASCADE,
-    CONSTRAINT fk_ticket_participant FOREIGN KEY (id_participant) REFERENCES "user"(id) ON DELETE CASCADE
+    CONSTRAINT fk_ticket_participant FOREIGN KEY (id_participant) REFERENCES "participant"(id) ON DELETE CASCADE
 );
