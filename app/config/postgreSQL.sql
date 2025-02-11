@@ -1,5 +1,5 @@
 
-
+CREATE DATABASE EventBrite;
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     avatar VARCHAR(50),
