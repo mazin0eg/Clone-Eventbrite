@@ -69,11 +69,18 @@ CREATE TABLE eventTag (
 
 CREATE TABLE ticket (
     id SERIAL PRIMARY KEY,
-    dateDeReservation DATE,
-    montant FLOAT,
-    status VARCHAR(55),
+    type VARCHAR(20) CHECK (type IN ('free', 'paid', 'vip')),
+    total_quantity INT CHECK (total_quantity >= 0), 
+    price FLOAT CHECK (price >= 0), -- Free tickets will have price = 0
     id_event INT,
+    CONSTRAINT fk_ticket_event FOREIGN KEY (id_event) REFERENCES event(id) ON DELETE CASCADE
+);
+
+CREATE TABLE reservation (
+    id SERIAL PRIMARY KEY,
+    id_ticket INT,
     id_participant INT,
-    CONSTRAINT fk_ticket_event FOREIGN KEY (id_event) REFERENCES event(id) ON DELETE CASCADE,
-    CONSTRAINT fk_ticket_participant FOREIGN KEY (id_participant) REFERENCES "participant"(id) ON DELETE CASCADE
+    reservation_date DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT fk_reservation_ticket FOREIGN KEY (id_ticket) REFERENCES ticket(id) ON DELETE CASCADE,
+    CONSTRAINT fk_reservation_participant FOREIGN KEY (id_participant) REFERENCES "participant"(id) ON DELETE CASCADE
 );
