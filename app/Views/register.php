@@ -1,3 +1,32 @@
+
+<?php
+require_once '../Controllers/AuthController.php';
+
+$authController = new AuthController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+    $avatar = $_FILES['avatar'];
+    $cpsssword = $_POST['Cpassword'];
+    if ($password !== $cpsssword) {
+        echo "<script> alert('Passwords do not match!'); </script>";
+        header('location: register.php');
+        exit; // Prevents further execution of the script after redirect
+    }
+
+    try {
+        $authController->signup($username, $email, $phone, $password, $avatar, $role);
+        echo "<p>Registration successful!</p>";
+    } catch (Exception $e) {
+        echo "<p style='color: red;'>Error: " . $e->getMessage() . "</p>";
+        echo" erroor "; 
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,50 +56,40 @@
 
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40">
-        <!-- Navigation -->
-        <nav class="fixed top-0 w-full h-20 flex justify-around items-center bg-gradient-to-b from-black/60 to-transparent z-50">
-            <!-- Beautiful SVG Logo for Evento -->
+       <!-- Navigation -->
+       <nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
+            <!-- Logo -->
             <div class="text-white text-2xl font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                    <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9" />
+                    <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9"/>
                     <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
                 </svg>
             </div>
 
-            <div class="hidden md:block" id="navMenu">
-                <ul class="flex space-x-6">
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-home-alt'></i>Home</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-book-content'></i>Blog</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-server'></i>Services</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-info-circle'></i>About</a></li>
-                </ul>
+            <!-- Navigation Menu -->
+            <div class="hidden md:flex items-center space-x-6" id="navMenu">
+                <a href="index.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-home-alt'></i>Home
+                </a>
+                <a href="events.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-calendar-event'></i>Events
+                </a>
+                <a href="tickets.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-ticket'></i>Tickets
+                </a>
             </div>
 
-            <div class="hidden md:flex space-x-4">
-                <a href="login.php" class="px-6 py-2 rounded-full bg-primary/40 hover:bg-primary/30 transition-all text-textColor flex items-center gap-2">
-                    <i class='bx bx-log-in'></i>Sign In</a>
-                <a href="register.php" class="px-6 py-2 rounded-full bg-primary/70 hover:bg-primary/50 transition-all text-textColor flex items-center gap-2">
-                    <i class='bx bx-user-plus'></i>Sign Up</a>
-            </div>
-
-            <div class="md:hidden">
-                <i class="bx bx-menu text-textColor text-2xl p-2 bg-primary/20 rounded-full cursor-pointer hover:bg-primary/15 transition-all" onclick="toggleMenu()"></i>
-            </div>
         </nav>
 
         <!-- Register Form -->
-        <div class="flex justify-center items-center min-h-screen">
+        <div class="flex justify-center items-center min-h-screen mt-10">
             <div class="w-full max-w-xl p-6 transform transition-all duration-500 opacity-0 -translate-x-full bg-inputBg rounded-lg shadow-lg" id="registerForm">
                 <div class="text-center mb-6">
                     <p class="text-textColor text-sm mb-2">Have an account? <a href="login.php" class="font-medium hover:underline text-accent">Sign In</a></p>
                     <h2 class="text-textColor text-2xl font-semibold">Register</h2>
                 </div>
 
-                <form class="space-y-4" action="/register" method="POST" enctype="multipart/form-data">
+                <form class="space-y-4" action="register.php" method="POST" enctype="multipart/form-data">
                     <!-- Avatar Upload -->
                     <div class="flex justify-center mb-6">
                         <label for="avatar" class="cursor-pointer group">
@@ -106,7 +125,7 @@
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="role" value="organizer" class="peer hidden">
+                                    <input type="radio" name="role" value="organisateur" class="peer hidden">
                                     <div class="h-24 rounded-xl bg-primary/20 flex flex-col items-center justify-center gap-2 
                                                 peer-checked:bg-primary/40 peer-checked:ring-2 peer-checked:ring-accent
                                                 hover:bg-primary/25 transition-all group">
@@ -122,30 +141,30 @@
 
                         <!-- Username Field -->
                         <div class="relative group">
-                            <input type="text" placeholder="Username" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="text" name="username" placeholder="Username" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-user absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Phone Field -->
                         <div class="relative group">
-                            <input type="tel" placeholder="Phone" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="tel" name="phone" placeholder="Phone" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-phone absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Email Field -->
                         <div class="relative col-span-2 group">
-                            <input type="email" placeholder="Email" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="email" name="email" placeholder="Email" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-envelope absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Password Fields -->
                         <div class="relative group">
-                            <input type="password" placeholder="Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="password" name="password" placeholder="Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-lock-alt absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <div class="relative group">
-                            <input type="password" placeholder="Confirm Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="password" name ="Cpassword"   placeholder="Confirm Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-lock-alt absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
