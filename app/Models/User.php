@@ -142,4 +142,10 @@ class Admin extends User {
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function getAllUsers() {
+        $query = 'SELECT id, avatar, username, email, phone, role, active FROM "user"';
+        $stmt = $this->conn->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
