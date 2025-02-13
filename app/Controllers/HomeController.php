@@ -1,7 +1,6 @@
 <?php
 
-require_once '../Core/Controller.php';
-
+use App\Core\Controller;
 class HomeController extends Controller
 {
     public function index()
