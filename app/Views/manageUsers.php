@@ -1,8 +1,6 @@
 <?php
 require_once "../Models/User.php";
 
-$db = require '../database.php';
-$pdo = new PDO("pgsql:host={$db['host']};port={$db['port']};dbname={$db['database']}", $db['username'], $db['password']);
 $admin = new Admin($pdo);
 $users = $admin->getAllUsers();
 
