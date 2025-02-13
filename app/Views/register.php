@@ -1,32 +1,3 @@
-
-<?php
-require_once '../Controllers/AuthController.php';
-
-$authController = new AuthController();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-    $avatar = $_FILES['avatar'];
-    $cpsssword = $_POST['Cpassword'];
-    if ($password !== $cpsssword) {
-        echo "<script> alert('Passwords do not match!'); </script>";
-        header('location: register.php');
-        exit; // Prevents further execution of the script after redirect
-    }
-
-    try {
-        $authController->signup($username, $email, $phone, $password, $avatar, $role);
-        echo "<p>Registration successful!</p>";
-    } catch (Exception $e) {
-        echo "<p style='color: red;'>Error: " . $e->getMessage() . "</p>";
-        echo" erroor "; 
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 

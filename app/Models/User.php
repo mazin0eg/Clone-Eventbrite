@@ -1,122 +1,133 @@
 <?php
 
-class User {
-    private $table = 'users';
+namespace App\Models;
+class User
+{
+    private $id;
     private $avatar;
     private $username;
     private $email;
     private $phone;
     private $password;
     private $role;
-    
-    public function getAvatar() {
-        return $this->avatar;
-    }
 
-    public function getUsername() {
-        return $this->username;
-    }
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function getPhone() {
-        return $this->phone;
-    }
-
-    public function getPassword() {
-        return $this->password;
-    }
-
-    public function getRole() {
-        return $this->role;
-    }
-
-    public function setAvatar($avatar) {
+    public function __construct($id, $avatar, $username, $email, $phone, $password, $role)
+    {
+        $this->id = $id;
         $this->avatar = $avatar;
-    }
-
-    public function setUsername($username) {
         $this->username = $username;
-    }
-
-    public function setEmail($email) {
         $this->email = $email;
-    }
-
-    public function setPhone($phone) {
         $this->phone = $phone;
-    }
-
-    public function setPassword($password) {
         $this->password = $password;
-    }
-
-    public function setRole($role) {
         $this->role = $role;
     }
 
-    public function register() {
-        $query = "INSERT INTO" . $this->table . "
-        ( avatar, username, password, email, phone, role) values (:avatar, :username, :password, :email, :phone, :role) ";
-        
-        $stmt = $this->conn->prepare($query);
-        
-        $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->avatar = htmlspecialchars(strip_tags($this->avatar));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->phone = htmlspecialchars(strip_tags($this->phone));
-        $this->role = htmlspecialchars(strip_tags($this->role));
-    
-        $stmt->bindParam(":avatar", $this->avatar);
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":phone", $this->phone);
-        $stmt->bindParam(":role", $this->role);
-
-        return $stmt->execute();
+    // Getters
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-    public function login($username, $email, $password) {
-        $query = "select id, username, password, role form " . $this->table . " where username = :username or email = :email";
-        $stmt = $this->conn->prepare($query);
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
 
-        $stmt->bindParam(":username", $username);
-        $stmt->bindParam(":email", $email);
-        $stmt->execute();
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
 
-        if($stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($password, $row['password'])) {
-                $this->setId((int) $row['id']);
-                $this->setUsername($row['username']);
-                $this->setEmail($row['email']);
-                $this->setRole($row['role']);
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
-                return [
-                    'id' => $this->getId(),
-                    'username' => $this->getUsername(),
-                    'email' => $this->getEmail(),
-                    'role' => $this->getRole()
-                ];
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    // Setters
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = htmlspecialchars(strip_tags($username));
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = htmlspecialchars(strip_tags($email));
+    }
+
+    public function setPhone(string $phone): void
+    {
+        $this->phone = htmlspecialchars(strip_tags($phone));
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    public function setRole(string $role): void
+    {
+        $this->role = $role;
+    }
+
+    // Save user to the database
+    public function save()
+    {
+        $db = Database::getInstance()->getConnection();
+        try {
+            if ($this->id) {
+                $stmt = $db->prepare("UPDATE user SET avatar = :avatar, username = :username, email = :email, phone = :phone, password = :password, role = :role WHERE id = :id");
+                $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+            } else {
+                $stmt = $db->prepare("INSERT INTO user (avatar, username, email, phone, password, role) VALUES (:avatar, :username, :email, :phone, :password, :role)");
             }
+
+            $stmt->bindParam(':avatar', $this->avatar, PDO::PARAM_STR);
+            $stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+            $stmt->bindParam(':phone', $this->phone, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
+            $stmt->bindParam(':role', $this->role, PDO::PARAM_STR);
+
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            throw new Exception("An error occurred while saving the user.");
         }
-        return false;
     }
 
-    public function editProfile($key, $value, $id) {
-        $query = "update users set " . $key . " = " . $value . " where id = " . $id . ";";
-        if($key === 'username') {
-            setUsername($value);
-        } else if($key === 'phone') {
-            setPhone($value);
-        } else if($key === 'avatar') {
-            setAvatar($value);
-        } else if($key === 'password') {
-            setPassword($value);
+    // Find user by email
+    public static function findByEmail($email)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM user WHERE email = :email");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return new User($result['id'], $result['avatar'], $result['username'], $result['email'], $result['phone'], $result['password'], $result['role']);
         }
+
+        return null;
     }
 }
