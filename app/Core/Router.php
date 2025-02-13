@@ -2,9 +2,9 @@
 
 class Router
 {
-    protected $currentController = 'Pages';
-    protected $currentMethod = 'index';
-    protected $params = [];
+    private $currentController = 'Pages';
+    private $currentMethod = 'index';
+    private $params = [];
 
     public function __construct()
     {
