@@ -26,7 +26,7 @@
 </head>
 <body class="bg-background min-h-screen">
         <!-- Navigation -->
-<nav class="fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
+<nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
     <!-- Logo -->
     <div class="text-white text-2xl font-semibold">
       <a href="home.php"><svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
@@ -37,13 +37,13 @@
 
     <!-- Navigation Menu -->
     <div class="flex items-center space-x-6">
-        <a href="index.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+        <a href="home.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
             <i class='bx bx-home-alt'></i>Home
         </a>
-        <a href="events.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+        <a href="event.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
             <i class='bx bx-calendar-event'></i>Events
         </a>
-        <a href="tickets.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+        <a href="ticket.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
             <i class='bx bx-ticket'></i>Tickets
         </a>
 
@@ -64,7 +64,7 @@
 
                 <!-- Dropdown Menu -->
                 <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-inputBg rounded-xl shadow-lg py-1 hidden">
-                    <a href="#" class="block px-4 py-2 text-sm text-textColor hover:bg-primary/20 transition-all flex items-center gap-2">
+                    <a href="profile.php" class="block px-4 py-2 text-sm text-textColor hover:bg-primary/20 transition-all flex items-center gap-2">
                         <i class='bx bx-user'></i>Profile
                     </a>
                     <a href="#" class="block px-4 py-2 text-sm text-textColor hover:bg-primary/20 transition-all flex items-center gap-2">

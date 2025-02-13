@@ -26,7 +26,7 @@
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40">
              <!-- Navigation -->
-<nav class="fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
+<nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
     <!-- Logo -->
     <div class="text-white text-2xl font-semibold">
          <a href="home.php"><svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
@@ -37,7 +37,7 @@
 
     <!-- Navigation Menu -->
     <div class="flex items-center space-x-6">
-        <a href="home.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+        <a href="home.php" class="text-accent hover:text-accent transition-all flex items-center gap-2">
             <i class='bx bx-home-alt'></i>Home
         </a>
         <a href="Event.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
