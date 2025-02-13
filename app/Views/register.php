@@ -1,3 +1,32 @@
+
+<?php
+require_once '../Controllers/AuthController.php';
+
+$authController = new AuthController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+    $avatar = $_FILES['avatar'];
+    $cpsssword = $_POST['Cpassword'];
+    if ($password !== $cpsssword) {
+        echo "<script> alert('Passwords do not match!'); </script>";
+        header('location: register.php');
+        exit; // Prevents further execution of the script after redirect
+    }
+
+    try {
+        $authController->signup($username, $email, $phone, $password, $avatar, $role);
+        echo "<p>Registration successful!</p>";
+    } catch (Exception $e) {
+        echo "<p style='color: red;'>Error: " . $e->getMessage() . "</p>";
+        echo" erroor "; 
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,14 +82,14 @@
         </nav>
 
         <!-- Register Form -->
-        <div class="flex justify-center items-center min-h-screen">
+        <div class="flex justify-center items-center min-h-screen mt-10">
             <div class="w-full max-w-xl p-6 transform transition-all duration-500 opacity-0 -translate-x-full bg-inputBg rounded-lg shadow-lg" id="registerForm">
                 <div class="text-center mb-6">
                     <p class="text-textColor text-sm mb-2">Have an account? <a href="login.php" class="font-medium hover:underline text-accent">Sign In</a></p>
                     <h2 class="text-textColor text-2xl font-semibold">Register</h2>
                 </div>
 
-                <form class="space-y-4" action="/register" method="POST" enctype="multipart/form-data">
+                <form class="space-y-4" action="register.php" method="POST" enctype="multipart/form-data">
                     <!-- Avatar Upload -->
                     <div class="flex justify-center mb-6">
                         <label for="avatar" class="cursor-pointer group">
@@ -96,7 +125,7 @@
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="role" value="organizer" class="peer hidden">
+                                    <input type="radio" name="role" value="organisateur" class="peer hidden">
                                     <div class="h-24 rounded-xl bg-primary/20 flex flex-col items-center justify-center gap-2 
                                                 peer-checked:bg-primary/40 peer-checked:ring-2 peer-checked:ring-accent
                                                 hover:bg-primary/25 transition-all group">
@@ -112,30 +141,30 @@
 
                         <!-- Username Field -->
                         <div class="relative group">
-                            <input type="text" placeholder="Username" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="text" name="username" placeholder="Username" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-user absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Phone Field -->
                         <div class="relative group">
-                            <input type="tel" placeholder="Phone" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="tel" name="phone" placeholder="Phone" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-phone absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Email Field -->
                         <div class="relative col-span-2 group">
-                            <input type="email" placeholder="Email" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="email" name="email" placeholder="Email" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-envelope absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <!-- Password Fields -->
                         <div class="relative group">
-                            <input type="password" placeholder="Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="password" name="password" placeholder="Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-lock-alt absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
                         <div class="relative group">
-                            <input type="password" placeholder="Confirm Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
+                            <input type="password" name ="Cpassword"   placeholder="Confirm Password" class="w-full h-10 px-10 rounded-full bg-primary/20 text-textColor placeholder-textColor outline-none group-hover:bg-primary/25 focus:ring-2 focus:ring-accent transition-all">
                             <i class="bx bx-lock-alt absolute left-3 top-2.5 text-textColor"></i>
                         </div>
 
