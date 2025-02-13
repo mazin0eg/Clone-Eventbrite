@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 class AuthorizationMiddleware implements MiddlewareInterface
 {
     private $requiredRoles = [];
@@ -7,6 +8,11 @@ class AuthorizationMiddleware implements MiddlewareInterface
         $this->requiredRoles = $requiredRoles;
     }
     public function handle()
+=======
+class AuthorizationMiddleware
+{
+    public static function handle(array $requiredRoles)
+>>>>>>> 13a069fce8ccbdafc96b21810b630d574c1c0427
     {
         if (!isset($_SESSION['user'])) {
             header("Location:" . ROOTURL . "/");
@@ -15,7 +21,11 @@ class AuthorizationMiddleware implements MiddlewareInterface
 
         $user = unserialize($_SESSION['user']);
 
+<<<<<<< HEAD
         if (!in_array($user->getRole(), $this->requiredRoles)) {
+=======
+        if (!in_array($user->getRole(), $requiredRoles)) {
+>>>>>>> 13a069fce8ccbdafc96b21810b630d574c1c0427
             header("Location:" . ROOTURL . "/");
             exit();
         }

@@ -27,39 +27,29 @@
 
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40">
-        <!-- Navigation -->
-        <nav class="fixed top-0 w-full h-20 flex justify-around items-center bg-gradient-to-b from-black/60 to-transparent z-50">
-            <!-- Beautiful SVG Logo for Evento -->
+       <!-- Navigation -->
+       <nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
+            <!-- Logo -->
             <div class="text-white text-2xl font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                    <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9" />
+                    <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9"/>
                     <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
                 </svg>
             </div>
 
-            <div class="hidden md:block" id="navMenu">
-                <ul class="flex space-x-6">
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-home-alt'></i>Home</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-book-content'></i>Blog</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-server'></i>Services</a></li>
-                    <li><a href="#" class="text-textColor hover:border-b-2 border-accent pb-4 transition-all flex items-center gap-2">
-                            <i class='bx bx-info-circle'></i>About</a></li>
-                </ul>
+            <!-- Navigation Menu -->
+            <div class="hidden md:flex items-center space-x-6" id="navMenu">
+                <a href="index.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-home-alt'></i>Home
+                </a>
+                <a href="events.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-calendar-event'></i>Events
+                </a>
+                <a href="tickets.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-ticket'></i>Tickets
+                </a>
             </div>
 
-            <div class="hidden md:flex space-x-4">
-                <a href="login.php" class="px-6 py-2 rounded-full bg-primary/40 hover:bg-primary/30 transition-all text-textColor flex items-center gap-2">
-                    <i class='bx bx-log-in'></i>Sign In</a>
-                <a href="register.php" class="px-6 py-2 rounded-full bg-primary/70 hover:bg-primary/50 transition-all text-textColor flex items-center gap-2">
-                    <i class='bx bx-user-plus'></i>Sign Up</a>
-            </div>
-
-            <div class="md:hidden">
-                <i class="bx bx-menu text-textColor text-2xl p-2 bg-primary/20 rounded-full cursor-pointer hover:bg-primary/15 transition-all" onclick="toggleMenu()"></i>
-            </div>
         </nav>
 
         <!-- Register Form -->
