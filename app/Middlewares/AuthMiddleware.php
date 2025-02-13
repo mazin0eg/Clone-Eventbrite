@@ -1,7 +1,8 @@
 <?php
-class AuthMiddleware
+
+class AuthMiddleware implements MiddlewareInterface
 {
-    public static function handle()
+    public function handle()
     {
         if (!isset($_SESSION['user'])) {
             header("Location:" . ROOTURL . "/login");
