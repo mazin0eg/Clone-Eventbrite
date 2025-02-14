@@ -1,8 +1,5 @@
 <?php
 require_once "../Models/User.php";
-//
-$admin = new Admin($pdo);
-$users = $admin->getAllUsers();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
     $userId = $_POST['user_id'];
@@ -88,4 +85,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
   </div>
 </body>
 </html>
-

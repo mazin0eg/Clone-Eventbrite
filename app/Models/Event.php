@@ -1,7 +1,7 @@
 <?php
+namespace App\Models;
 
-
-class EventModel {
+class Event {
     private $db;
 
     public function __construct() {
