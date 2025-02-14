@@ -1,7 +1,6 @@
 <?php
 require_once "../Models/User.php";
-
-
+//
 $admin = new Admin($pdo);
 $users = $admin->getAllUsers();
 
