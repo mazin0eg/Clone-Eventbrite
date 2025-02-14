@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use App\Core\Database;
+use PDO;
 class User
 {
     private $id;
@@ -87,6 +89,14 @@ class User
     public function setRole(string $role): void
     {
         $this->role = $role;
+    }
+
+    //static method to get all users
+    public static function getAllUsers()
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query("SELECT * FROM user");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Save user to the database
