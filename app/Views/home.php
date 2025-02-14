@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,58 +24,79 @@
         };
     </script>
 </head>
+
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40">
-             <!-- Navigation -->
-<nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
-    <!-- Logo -->
-    <div class="text-white text-2xl font-semibold">
-         <a href="home.php"><svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-            <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9"/>
-            <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
-        </svg></a> 
-    </div>
-
-    <!-- Navigation Menu -->
-    <div class="flex items-center space-x-6">
-        <a href="home.php" class="text-accent hover:text-accent transition-all flex items-center gap-2">
-            <i class='bx bx-home-alt'></i>Home
-        </a>
-        <a href="Event.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-            <i class='bx bx-calendar-event'></i>Events
-        </a>
-        <a href="ticket.php" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-            <i class='bx bx-ticket'></i>Tickets
-        </a>
-
-        <!-- Auth Section -->
-        <div class="relative ml-4">
-            <!-- Sign In Button (Visible when logged out) -->
-            <a href="login.php" id="signInBtn" class="px-4 py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all flex items-center gap-2">
-                <i class='bx bx-log-in'></i>Sign In
-            </a>
-
-            <!-- Profile Section (Hidden by default) -->
-            <div id="profileSection" class="hidden">
-                <button id="profileBtn" class="flex items-center gap-3 p-2 rounded-full hover:bg-primary/20 transition-all">
-                    <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-accent">
-                    <span class="text-textColor">John Doe</span>
-                    <i class='bx bx-chevron-down text-textColor' id="arrowIcon"></i>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-inputBg rounded-xl shadow-lg py-1 hidden">
-                    <a href="profile.php" class="block px-4 py-2 text-sm text-textColor hover:bg-primary/20 transition-all flex items-center gap-2">
-                        <i class='bx bx-user'></i>Profile
-                    </a>
-                    <button id="logoutBtn" class="w-full text-left px-4 py-2 text-sm text-accent hover:bg-primary/20 transition-all flex items-center gap-2">
-                        <i class='bx bx-log-out'></i>Logout
-                    </button>
-                </div>
+        <!-- Navigation -->
+        <!-- Header with gradient background -->
+        <header
+            class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
+            <!-- Logo -->
+            <div class="text-white text-2xl font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
+                    <path
+                        d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z"
+                        fill="#6D28D9" />
+                    <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
+                </svg>
             </div>
-        </div>
-    </div>
-</nav>
+
+            <!-- Navigation Menu -->
+            <nav class="flex items-center space-x-6">
+                <!-- Common Links for all users -->
+                <a href="/home" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-home-alt'></i>Home
+                </a>
+                <a href="/Event" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                    <i class='bx bx-calendar-event'></i>Events
+                </a>
+
+                <?php if (isset($_SESSION['user'])): ?>
+                    <?php $role = $_SESSION['user']->getRole(); ?>
+
+                    <?php if ($role === 'organisateur'): ?>
+                        <a href="/dashboard" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                            <i class='bx bx-layout'></i>Dashboard
+                        </a>
+                    <?php elseif ($role === 'admin'): ?>
+                        <a href="/admin" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                            <i class='bx bx-cog'></i>Admin Space
+                        </a>
+                    <?php elseif ($role === 'participant'): ?>
+                        <a href="/ticket" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                            <i class='bx bx-ticket'></i>Tickets
+                        </a>
+                    <?php endif; ?>
+
+                    <!-- Profile Section for logged-in users -->
+                    <div class="relative ml-4">
+                        <button onclick="toggleDropdown()"
+                            class="flex items-center gap-3 p-2 rounded-full hover:bg-primary/20 transition-all">
+                            <img src="/api/placeholder/40/40" alt="Profile"
+                                class="w-10 h-10 rounded-full object-cover border-2 border-accent">
+                            <span class="text-textColor"><?php echo $_SESSION['user']->name; ?></span>
+                            <i class='bx bx-chevron-down text-textColor'></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div id="dropdownMenu"
+                            class="absolute right-0 mt-2 w-48 bg-inputBg rounded-xl shadow-lg py-1 hidden">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-accent hover:bg-primary/20 transition-all flex items-center gap-2">
+                                <i class='bx bx-log-out'></i>Logout
+                            </button>
+                        </div>
+                    </div>
+
+                <?php else: ?>
+                    <!-- Sign In Button for logged-out users -->
+                    <a href="login.html"
+                        class="px-4 py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all flex items-center gap-2">
+                        <i class='bx bx-log-in'></i>Sign In
+                    </a>
+                <?php endif; ?>
+            </nav>
+        </header>
 
         <!-- Hero Section -->
         <section class="pt-32 pb-16 px-4">
@@ -82,10 +104,12 @@
                 <h1 class="text-4xl md:text-6xl font-bold text-textColor mb-6">Discover Amazing Events</h1>
                 <p class="text-textColor/80 text-lg mb-8">Find and book tickets for the best events in your area</p>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <a href="events.html" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
+                    <a href="events.html"
+                        class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
                         <i class='bx bx-calendar-event'></i>Browse Events
                     </a>
-                    <a href="#featured" class="px-8 py-3 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
+                    <a href="#featured"
+                        class="px-8 py-3 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
                         <i class='bx bx-star'></i>Featured Events
                     </a>
                 </div>
@@ -99,25 +123,29 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <a href="events.html?category=music" class="group">
                         <div class="bg-inputBg rounded-xl p-6 text-center hover:bg-primary/20 transition-all">
-                            <i class='bx bx-music text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
+                            <i
+                                class='bx bx-music text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
                             <h3 class="text-textColor font-medium">Music</h3>
                         </div>
                     </a>
                     <a href="events.html?category=tech" class="group">
                         <div class="bg-inputBg rounded-xl p-6 text-center hover:bg-primary/20 transition-all">
-                            <i class='bx bx-laptop text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
+                            <i
+                                class='bx bx-laptop text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
                             <h3 class="text-textColor font-medium">Technology</h3>
                         </div>
                     </a>
                     <a href="events.html?category=sports" class="group">
                         <div class="bg-inputBg rounded-xl p-6 text-center hover:bg-primary/20 transition-all">
-                            <i class='bx bx-basketball text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
+                            <i
+                                class='bx bx-basketball text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
                             <h3 class="text-textColor font-medium">Sports</h3>
                         </div>
                     </a>
                     <a href="events.html?category=art" class="group">
                         <div class="bg-inputBg rounded-xl p-6 text-center hover:bg-primary/20 transition-all">
-                            <i class='bx bx-palette text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
+                            <i
+                                class='bx bx-palette text-4xl text-accent mb-2 group-hover:scale-110 transition-transform'></i>
                             <h3 class="text-textColor font-medium">Arts</h3>
                         </div>
                     </a>
@@ -131,10 +159,12 @@
                 <h2 class="text-3xl font-bold text-textColor mb-8">Featured Events</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Event Card 1 -->
-                    <div class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
+                    <div
+                        class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
                         <div class="relative">
                             <img src="/api/placeholder/400/200" alt="Event 1" class="w-full h-48 object-cover">
-                            <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
+                            <span
+                                class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
                         </div>
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-2">
@@ -148,15 +178,19 @@
                                 <i class='bx bx-map ml-2'></i>
                                 <span>Central Park</span>
                             </div>
-                            <button class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get Tickets</button>
+                            <button
+                                class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get
+                                Tickets</button>
                         </div>
                     </div>
 
                     <!-- Event Card 2 -->
-                    <div class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
+                    <div
+                        class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
                         <div class="relative">
                             <img src="/api/placeholder/400/200" alt="Event 2" class="w-full h-48 object-cover">
-                            <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
+                            <span
+                                class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
                         </div>
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-2">
@@ -170,15 +204,19 @@
                                 <i class='bx bx-map ml-2'></i>
                                 <span>Convention Center</span>
                             </div>
-                            <button class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get Tickets</button>
+                            <button
+                                class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get
+                                Tickets</button>
                         </div>
                     </div>
 
                     <!-- Event Card 3 -->
-                    <div class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
+                    <div
+                        class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
                         <div class="relative">
                             <img src="/api/placeholder/400/200" alt="Event 3" class="w-full h-48 object-cover">
-                            <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
+                            <span
+                                class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent/90 text-white text-sm">Featured</span>
                         </div>
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-2">
@@ -192,69 +230,75 @@
                                 <i class='bx bx-map ml-2'></i>
                                 <span>City Square</span>
                             </div>
-                            <button class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get Tickets</button>
+                            <button
+                                class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">Get
+                                Tickets</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-<!-- Footer -->
-<footer class="bg-black/40 text-textColor py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Logo and Description -->
-            <div class="col-span-1 md:col-span-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                    <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9"/>
-                    <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
-                </svg>
-                <p class="mt-4 text-textColor/70">Discover and book amazing events happening around you. Join our community of event enthusiasts.</p>
+    <!-- Footer -->
+    <footer class="bg-black/40 text-textColor py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and Description -->
+                <div class="col-span-1 md:col-span-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
+                        <path
+                            d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z"
+                            fill="#6D28D9" />
+                        <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
+                    </svg>
+                    <p class="mt-4 text-textColor/70">Discover and book amazing events happening around you. Join our
+                        community of event enthusiasts.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-textColor/70 hover:text-accent">About Us</a></li>
+                        <li><a href="#" class="text-textColor/70 hover:text-accent">Contact</a></li>
+                        <li><a href="#" class="text-textColor/70 hover:text-accent">FAQs</a></li>
+                        <li><a href="#" class="text-textColor/70 hover:text-accent">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2">
+                            <i class='bx bx-envelope text-accent'></i>
+                            <a href="mailto:info@evento.com"
+                                class="text-textColor/70 hover:text-accent">info@evento.com</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class='bx bx-phone text-accent'></i>
+                            <a href="tel:+1234567890" class="text-textColor/70 hover:text-accent">+1 (234) 567-890</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class='bx bx-map text-accent'></i>
+                            <span class="text-textColor/70">123 Event Street, City</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Quick Links -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-textColor/70 hover:text-accent">About Us</a></li>
-                    <li><a href="#" class="text-textColor/70 hover:text-accent">Contact</a></li>
-                    <li><a href="#" class="text-textColor/70 hover:text-accent">FAQs</a></li>
-                    <li><a href="#" class="text-textColor/70 hover:text-accent">Privacy Policy</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center gap-2">
-                        <i class='bx bx-envelope text-accent'></i>
-                        <a href="mailto:info@evento.com" class="text-textColor/70 hover:text-accent">info@evento.com</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i class='bx bx-phone text-accent'></i>
-                        <a href="tel:+1234567890" class="text-textColor/70 hover:text-accent">+1 (234) 567-890</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i class='bx bx-map text-accent'></i>
-                        <span class="text-textColor/70">123 Event Street, City</span>
-                    </li>
-                </ul>
+            <!-- Social Links & Copyright -->
+            <div class="mt-8 pt-8 border-t border-textColor/10 flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-4 mb-4 md:mb-0">
+                    <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-twitter'></i></a>
+                    <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-instagram'></i></a>
+                    <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-linkedin'></i></a>
+                </div>
+                <p class="text-textColor/70 text-sm">© 2024 Evento. All rights reserved.</p>
             </div>
         </div>
-
-        <!-- Social Links & Copyright -->
-        <div class="mt-8 pt-8 border-t border-textColor/10 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex space-x-4 mb-4 md:mb-0">
-                <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-facebook'></i></a>
-                <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-twitter'></i></a>
-                <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-instagram'></i></a>
-                <a href="#" class="text-textColor/70 hover:text-accent text-xl"><i class='bx bxl-linkedin'></i></a>
-            </div>
-            <p class="text-textColor/70 text-sm">© 2024 Evento. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
     <script>
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
@@ -275,56 +319,57 @@
             alert('Logging out...');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-    // Get DOM elements
-    const signInBtn = document.getElementById('signInBtn');
-    const profileSection = document.getElementById('profileSection');
-    const profileBtn = document.getElementById('profileBtn');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const arrowIcon = document.getElementById('arrowIcon');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get DOM elements
+            const signInBtn = document.getElementById('signInBtn');
+            const profileSection = document.getElementById('profileSection');
+            const profileBtn = document.getElementById('profileBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const arrowIcon = document.getElementById('arrowIcon');
 
-    // For testing - set to true to show profile section
-    let isLoggedIn = true; // Change to false for production
+            // For testing - set to true to show profile section
+            let isLoggedIn = true; // Change to false for production
 
-    // Update UI based on login state
-    function updateUI() {
-        if (isLoggedIn) {
-            signInBtn.classList.add('hidden');
-            profileSection.classList.remove('hidden');
-        } else {
-            signInBtn.classList.remove('hidden');
-            profileSection.classList.add('hidden');
-            dropdownMenu.classList.add('hidden');
-        }
-    }
+            // Update UI based on login state
+            function updateUI() {
+                if (isLoggedIn) {
+                    signInBtn.classList.add('hidden');
+                    profileSection.classList.remove('hidden');
+                } else {
+                    signInBtn.classList.remove('hidden');
+                    profileSection.classList.add('hidden');
+                    dropdownMenu.classList.add('hidden');
+                }
+            }
 
-    // Toggle dropdown
-    profileBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('hidden');
-        arrowIcon.classList.toggle('rotate-180');
-    });
+            // Toggle dropdown
+            profileBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+                arrowIcon.classList.toggle('rotate-180');
+            });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            dropdownMenu.classList.add('hidden');
-            arrowIcon.classList.remove('rotate-180');
-        }
-    });
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                    arrowIcon.classList.remove('rotate-180');
+                }
+            });
 
-    // Handle logout
-    logoutBtn.addEventListener('click', function() {
-        isLoggedIn = false;
-        updateUI();
-        // Add your logout logic here
-        window.location.href = 'login.html';
-    });
+            // Handle logout
+            logoutBtn.addEventListener('click', function () {
+                isLoggedIn = false;
+                updateUI();
+                // Add your logout logic here
+                window.location.href = 'login.html';
+            });
 
-    // Initial UI setup
-    updateUI();
-});
+            // Initial UI setup
+            updateUI();
+        });
     </script>
 </body>
+
 </html>

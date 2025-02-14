@@ -11,9 +11,10 @@ class Event
         $this->db = Database::getInstance()->getConnection();
     }
 
-    public function getAllEvents()
+    public static function getAllEvents()
     {
-        $stmt = $this->db->query("SELECT * FROM event");
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query("SELECT * FROM event");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

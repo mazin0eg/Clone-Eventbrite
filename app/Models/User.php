@@ -3,6 +3,9 @@
 namespace App\Models;
 use App\Core\Database;
 use PDO;
+use Exception;
+use PDOException;
+
 class User
 {
     private $id;
@@ -12,8 +15,9 @@ class User
     private $phone;
     private $password;
     private $role;
+    private $active;
 
-    public function __construct($id, $avatar, $username, $email, $phone, $password, $role)
+    public function __construct($id, $avatar, $username, $email, $phone, $password, $role, $active = true)
     {
         $this->id = $id;
         $this->avatar = $avatar;
@@ -22,9 +26,22 @@ class User
         $this->phone = $phone;
         $this->password = $password;
         $this->role = $role;
+        $this->active = $active;
     }
 
-    // Getters
+    // Add getter for active
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    // Add setter for active
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    // Previous getters remain the same...
     public function getId(): ?int
     {
         return $this->id;
@@ -60,7 +77,7 @@ class User
         return $this->role;
     }
 
-    // Setters
+    // Previous setters remain the same...
     public function setAvatar(string $avatar): void
     {
         $this->avatar = $avatar;
@@ -88,27 +105,28 @@ class User
 
     public function setRole(string $role): void
     {
+        if (!in_array($role, ['admin', 'participant', 'organisateur'])) {
+            throw new Exception("Invalid role specified");
+        }
         $this->role = $role;
     }
 
-    //static method to get all users
     public static function getAllUsers()
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->query("SELECT * FROM user");
+        $stmt = $db->query("SELECT * FROM users");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Save user to the database
     public function save()
     {
         $db = Database::getInstance()->getConnection();
         try {
             if ($this->id) {
-                $stmt = $db->prepare("UPDATE user SET avatar = :avatar, username = :username, email = :email, phone = :phone, password = :password, role = :role WHERE id = :id");
+                $stmt = $db->prepare("UPDATE users SET avatar = :avatar, username = :username, email = :email, phone = :phone, password = :password, role = :role, active = :active WHERE id = :id");
                 $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
             } else {
-                $stmt = $db->prepare("INSERT INTO user (avatar, username, email, phone, password, role) VALUES (:avatar, :username, :email, :phone, :password, :role)");
+                $stmt = $db->prepare("INSERT INTO users (avatar, username, email, phone, password, role, active) VALUES (:avatar, :username, :email, :phone, :password, :role, :active)");
             }
 
             $stmt->bindParam(':avatar', $this->avatar, PDO::PARAM_STR);
@@ -117,6 +135,7 @@ class User
             $stmt->bindParam(':phone', $this->phone, PDO::PARAM_STR);
             $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
             $stmt->bindParam(':role', $this->role, PDO::PARAM_STR);
+            $stmt->bindParam(':active', $this->active, PDO::PARAM_BOOL);
 
             $stmt->execute();
         } catch (PDOException $e) {
@@ -125,17 +144,25 @@ class User
         }
     }
 
-    // Find user by email
     public static function findByEmail($email)
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT * FROM user WHERE email = :email");
+        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new User($result['id'], $result['avatar'], $result['username'], $result['email'], $result['phone'], $result['password'], $result['role']);
+            return new User(
+                $result['id'],
+                $result['avatar'],
+                $result['username'],
+                $result['email'],
+                $result['phone'],
+                $result['password'],
+                $result['role'],
+                $result['active']
+            );
         }
 
         return null;
