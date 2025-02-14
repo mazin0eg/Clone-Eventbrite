@@ -6,6 +6,11 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+
+    public function index()
+    {
+        $this->view('login');
+    }
     public function login()
     {
         $this->view('login');
