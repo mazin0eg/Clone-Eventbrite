@@ -14,6 +14,13 @@ abstract class Controller
             require_once '../app/views/404.php';
         }
     }
+
+    public function redirect($url)
+    {
+        header("Location: " . ROOTURL . "/$url");
+        exit();
+
+    }
 }
 
 ?>

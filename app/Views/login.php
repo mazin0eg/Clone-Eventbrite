@@ -55,7 +55,7 @@
                 <div class="text-center mb-8">
                    
                     <h2 class="text-textColor text-2xl font-semibold mb-2">Welcome Back!</h2>
-                    <p class="text-textColor/70 text-sm">Don't have an account? <a href="register.php" class="font-medium hover:underline text-accent">Sign Up</a></p>
+                    <p class="text-textColor/70 text-sm">Don't have an account? <a href="<?= ROOTURL?>/authController/register" class="font-medium hover:underline text-accent">Sign Up</a></p>
                 </div>
 
                 <form class="space-y-6" action="/login" method="POST">

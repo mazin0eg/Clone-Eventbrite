@@ -1,13 +1,14 @@
 
 
-CREATE TABLE "user" (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     avatar VARCHAR(50),
     username VARCHAR(50),
     email VARCHAR(55),
     phone VARCHAR(20),
     password VARCHAR(55),
-    role VARCHAR(20) CHECK (role IN ('admin', 'participant', 'organisateur'))
+    role VARCHAR(20) CHECK (role IN ('admin', 'participant', 'organisateur')),
+    active BOOLEAN DEFAULT TRUE;
 );
 
 
