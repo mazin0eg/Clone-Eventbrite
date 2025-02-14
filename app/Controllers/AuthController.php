@@ -24,14 +24,13 @@ class AuthController extends Controller
     public function loginUser()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /login');
-            exit();
+            $this->redirect('authController/login');
         }
 
         if (empty($_POST['email']) || empty($_POST['password'])) {
             $_SESSION['error'] = 'Email and password are required';
-            header('Location: /login');
-            exit();
+            $this->redirect('authController/login');
+
         }
 
         $email = trim($_POST['email']);
@@ -40,8 +39,8 @@ class AuthController extends Controller
 
         if (!$user || !password_verify($password, $user->getPassword())) {
             $_SESSION['error'] = 'Invalid email or password';
-            header('Location: /login');
-            exit();
+            $this->redirect('authController/login');
+
         }
 
         $_SESSION['user'] = serialize($user);
@@ -52,16 +51,16 @@ class AuthController extends Controller
     public function registerUser()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         $requiredFields = ['username', 'email', 'password', 'confirmPassword', 'phone', 'role'];
         foreach ($requiredFields as $field) {
             if (empty($_POST[$field])) {
-                $_SESSION['error'] = 'All fields are required.';
-                header('Location: /register');
-                exit();
+                $_SESSION['error'] = "$field is required";
+                $this->redirect('authController/register');
+
             }
         }
 
@@ -75,48 +74,48 @@ class AuthController extends Controller
 
         if ($password !== $confirmPassword) {
             $_SESSION['error'] = 'Passwords do not match.';
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         if (!$avatar || $avatar['error'] !== UPLOAD_ERR_OK) {
             $_SESSION['error'] = 'Avatar upload is required.';
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         if ($avatar['size'] > 5 * 1024 * 1024) {
             $_SESSION['error'] = 'Avatar size should not exceed 5MB';
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         $allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
         if (!in_array($avatar['type'], $allowedImageTypes)) {
             $_SESSION['error'] = 'Only JPG and PNG images are allowed.';
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         $avatarTmpName = $avatar['tmp_name'];
         $avatarName = uniqid('avatar_') . basename($avatar['name']);
-        $targetDir = 'storage/uploads/';
+        $targetDir = '/storage/uploads/';
         $targetFile = $targetDir . $avatarName;
 
         if (!move_uploaded_file($avatarTmpName, $targetFile)) {
             $_SESSION['error'] = 'Error uploading file.';
-            header('Location: /register');
-            exit();
+            $this->redirect('authController/register');
+
         }
 
         $user = new User(null, $avatarName, $username, $email, $phone, $hashedPassword, $role);
         $user->save();
 
         $_SESSION['success'] = 'Registration successful, please login.';
-        header('Location: /login');
-        exit();
+        $this->redirect('authController/login');
+
     }
 
 
