@@ -24,8 +24,13 @@
   </script>
 </head>
 
-<body class="bg-background text-textColor p-6">
-  <div class="max-w-5xl mx-auto bg-inputBg p-8 rounded-xl shadow-2xl border-2 border-secondary">
+<body class="bg-background text-textColor">
+
+    <?php
+    require_once 'header.php'; 
+    ?>
+
+  <div class="max-w-5xl mx-auto bg-inputBg mt-32 py-8 px-4 rounded-xl shadow-2xl border-2 border-secondary">
     <h1 class="text-4xl font-extrabold mb-6 text-primary">Manage Users</h1>
     <table class="w-full text-sm border border-secondary rounded-lg overflow-hidden">
       <thead>
