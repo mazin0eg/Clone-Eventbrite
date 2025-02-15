@@ -63,7 +63,7 @@
                 <div id="profileSection" class="hidden">
                     <button id="profileBtn"
                         class="flex items-center gap-3 p-2 rounded-full hover:bg-primary/20 transition-all">
-                        <img src="<?= ROOTURL .  ?>" alt="Profile"
+                        <img src="" alt="Profile"
                             class="w-10 h-10 rounded-full object-cover border-2 border-accent">
                         <span class="text-textColor">John Doe</span>
                         <i class='bx bx-chevron-down text-textColor' id="arrowIcon"></i>
