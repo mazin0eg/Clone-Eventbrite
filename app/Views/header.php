@@ -39,11 +39,13 @@ if (isset($_SESSION['user'])) {
                     <i class='bx bx-layout'></i>Dashboard
                 </a>
             <?php elseif ($role === 'admin'): ?>
-                <a href="<?= ROOTURL ?>/AdminController/index" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                <a href="<?= ROOTURL ?>/AdminController/index"
+                    class="text-textColor hover:text-accent transition-all flex items-center gap-2">
                     <i class='bx bx-cog'></i>Admin Space
                 </a>
             <?php elseif ($role === 'participant'): ?>
-                <a href="/TicketController/index" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
+                <a href="/TicketController/index"
+                    class="text-textColor hover:text-accent transition-all flex items-center gap-2">
                     <i class='bx bx-ticket'></i>Tickets
                 </a>
             <?php endif; ?>

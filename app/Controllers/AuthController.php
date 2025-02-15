@@ -101,7 +101,7 @@ class AuthController extends Controller
 
         $avatarTmpName = $avatar['tmp_name'];
         $avatarName = uniqid('avatar_') . basename($avatar['name']);
-        $targetDir = '/storage/uploads/';
+        $targetDir = APPROOT . '/storage/uploads/';
         $targetFile = $targetDir . $avatarName;
 
         if (!move_uploaded_file($avatarTmpName, $targetFile)) {
