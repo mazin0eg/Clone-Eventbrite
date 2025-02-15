@@ -28,32 +28,19 @@
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40">
         <!-- Navigation -->
-        <nav
-            class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
-            <!-- Logo -->
-            <div class="text-white text-2xl font-semibold">
-                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                    <path
-                        d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z"
-                        fill="#6D28D9" />
-                    <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
-                </svg>
-            </div>
+        <?php
+        require_once APPROOT . '/app/Views/header.php';
 
-            <!-- Navigation Menu -->
-            <div class="hidden md:flex items-center space-x-6" id="navMenu">
-                <a href="index.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                    <i class='bx bx-home-alt'></i>Home
-                </a>
-                <a href="events.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                    <i class='bx bx-calendar-event'></i>Events
-                </a>
-                <a href="tickets.html" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                    <i class='bx bx-ticket'></i>Tickets
-                </a>
-            </div>
+        if (isset($_SESSION['error'])) {
+            echo "<script>alert('{$_SESSION['error']}')</script>";
+            unset($_SESSION['error']);
+        }
 
-        </nav>
+        if (isset($_SESSION['message'])) {
+            echo "<script>alert('{$_SESSION['message']}')</script>";
+            unset($_SESSION['success']);
+        }
+        ?>
 
         <!-- Register Form -->
         <div class="flex justify-center items-center min-h-screen mt-10">
@@ -165,50 +152,8 @@
 
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const registerForm = document.getElementById('registerForm');
-            const avatarInput = document.getElementById('avatar');
-            const avatarPreview = document.getElementById('avatarPreview');
-            const defaultIcon = document.getElementById('defaultAvatarIcon');
-
-            // Form animation
-            registerForm.classList.remove('-translate-x-full', 'opacity-0');
-
-            // Handle avatar image preview
-            avatarInput.addEventListener('change', function (e) {
-                if (this.files && this.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        avatarPreview.src = e.target.result;
-                        avatarPreview.classList.remove('hidden');
-                        defaultIcon.classList.add('hidden');
-                    }
-
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-        });
-
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-            menu.classList.toggle('flex-col');
-            menu.classList.toggle('absolute');
-            menu.classList.toggle('top-20');
-            menu.classList.toggle('left-0');
-            menu.classList.toggle('w-full');
-            menu.classList.toggle('bg-primary/20');
-            menu.classList.toggle('backdrop-blur-lg');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const registerForm = document.getElementById('registerForm');
-            registerForm.classList.remove('-translate-x-full', 'opacity-0');
-        });
-    </script>
+    <script src="<?= ROOTURL . '/public/js/menu.js'?>"></script>
+    <script src="<?= ROOTURL . '/public/js/register.js'?>"></script>
 </body>
 
 </html>
