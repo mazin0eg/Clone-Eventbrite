@@ -45,8 +45,7 @@ class AuthController extends Controller
 
         $_SESSION['user'] = serialize($user);
         $_SESSION['success'] = "Login successful, welcome " . htmlspecialchars($user->getUsername(), ENT_QUOTES, 'UTF-8');
-        header('Location: /home');
-        exit();
+        $this->redirect('homeController/index');
     }
     public function registerUser()
     {
@@ -123,6 +122,7 @@ class AuthController extends Controller
     {
         session_start();
         session_destroy();
+        $this->redirect('authController/login');
     }
 
 
