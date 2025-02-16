@@ -1,5 +1,9 @@
 <?php
-class AuthorizationMiddleware implements MiddlewareInterface
+namespace App\Middlewares;
+use App\Core\MiddlewareInterface;
+
+
+class RoleMiddleware implements MiddlewareInterface
 {
     private $requiredRoles = [];
     public function __construct($requiredRoles)

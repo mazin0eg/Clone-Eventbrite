@@ -6,7 +6,7 @@ use PDO;
 use Exception;
 use PDOException;
 
-class User
+abstract class User
 {
     private $id;
     private $avatar;
@@ -17,7 +17,7 @@ class User
     private $role;
     private $active;
 
-    public function __construct($id, $avatar, $username, $email, $phone, $password, $role, $active = true)
+    public function __construct($id, $email, $avatar = null, $username = null, $phone = null, $password = null, $role = null, $active = true)
     {
         $this->id = $id;
         $this->avatar = $avatar;
@@ -111,6 +111,19 @@ class User
         $this->role = $role;
     }
 
+    //static methods
+
+    public static function findRoleByEmail($email)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT role FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['role'] : null;
+    }
+
     public static function getAllUsers()
     {
         $db = Database::getInstance()->getConnection();
@@ -144,7 +157,7 @@ class User
         }
     }
 
-    public static function findByEmail($email)
+    public function loadUser($email)
     {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
@@ -153,18 +166,17 @@ class User
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new User(
-                $result['id'],
-                $result['avatar'],
-                $result['username'],
-                $result['email'],
-                $result['phone'],
-                $result['password'],
-                $result['role'],
-                $result['active']
-            );
+            $this->id = $result['id'];
+            $this->avatar = $result['avatar'];
+            $this->username = $result['username'];
+            $this->email = $result['email'];
+            $this->phone = $result['phone'];
+            $this->password = $result['password'];
+            $this->role = $result['role'];
+            $this->active = $result['active'];
+            return true;
         }
 
-        return null;
+        return false;
     }
 }

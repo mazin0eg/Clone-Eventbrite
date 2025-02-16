@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Users</title>
+  <title>Evento - Manage Users</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <script>
     tailwind.config = {
       theme: {
@@ -24,68 +25,95 @@
   </script>
 </head>
 
-<body class="bg-background text-textColor">
+<body class="bg-background min-h-screen">
+  <div class="min-h-screen bg-black/40">
+    <?php require_once APPROOT . '/app/Views/header.php'; ?>
 
-    <?php
-    require_once 'header.php'; 
-    ?>
+    <!-- Main Content -->
+    <div class="container max-w-6xl mx-auto px-4 pt-32 pb-16">
+      <div class="bg-inputBg rounded-xl shadow-2xl border border-primary/20 overflow-hidden">
+        <!-- Header Section -->
+        <div class="p-6 border-b border-primary/20">
+          <h1 class="text-3xl font-bold text-textColor">Manage Users</h1>
+          <p class="text-textColor/70 mt-2">Manage and monitor user accounts</p>
+        </div>
 
-  <div class="max-w-5xl mx-auto bg-inputBg mt-32 py-8 px-4 rounded-xl shadow-2xl border-2 border-secondary">
-    <h1 class="text-4xl font-extrabold mb-6 text-primary">Manage Users</h1>
-    <table class="w-full text-sm border border-secondary rounded-lg overflow-hidden">
-      <thead>
-        <tr class="bg-secondary text-white">
-          <th class="p-3">Avatar</th>
-          <th class="p-3">Username</th>
-          <th class="p-3">Email</th>
-          <th class="p-3">Role</th>
-          <th class="p-3">Status</th>
-          <th class="p-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if (!empty($data['users'])): ?>
-          <?php foreach ($data['users'] as $user): ?>
-            <tr class="bg-background border-b border-gray-700 hover:bg-gray-800">
-              <td class="p-3">
-              <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($user['avatar']) ?>"
-              class="w-10 h-10 rounded-full border-2 border-primary">
-              </td>
-              <td class="p-3 text-accent font-bold">
-                <?= htmlspecialchars($user['username']) ?>
-              </td>
-              <td class="p-3">
-                <?= htmlspecialchars($user['email']) ?>
-              </td>
-              <td class="p-3">
-                <?= htmlspecialchars($user['role']) ?>
-              </td>
-              <td class="p-3 font-semibold <?= $user['active'] ? 'text-green-400' : 'text-red-400' ?>">
-                <?= $user['active'] ? 'Active' : 'Banned' ?>
-              </td>
-              <td class="p-3">
-                <form method="POST" class="inline-block">
-                  <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                  <input type="hidden" name="action" value="<?= $user['active'] ? 'ban' : 'unban' ?>">
-                  <button type="submit"
-                    class="px-4 py-1 rounded-full text-sm font-bold text-white shadow-md transition-transform duration-200 transform hover:scale-105 <?= $user['active'] ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' ?>">
-                    <?= $user['active'] ? 'Ban' : 'Unban' ?>
-                  </button>
-                </form>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <tr>
-            <td colspan="6" class="p-5 text-center text-gray-400 font-semibold">
-              No users found.
-            </td>
-          </tr>
-        <?php endif; ?>
-      </tbody>
-
-    </table>
+        <!-- Table Section -->
+        <div class="p-6">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="bg-primary/10 border-b border-primary/20">
+                  <th class="p-4 text-left text-textColor/80">Avatar</th>
+                  <th class="p-4 text-left text-textColor/80">Username</th>
+                  <th class="p-4 text-left text-textColor/80">Email</th>
+                  <th class="p-4 text-left text-textColor/80">Role</th>
+                  <th class="p-4 text-left text-textColor/80">Status</th>
+                  <th class="p-4 text-left text-textColor/80">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php if (!empty($data['users'])): ?>
+                  <?php foreach ($data['users'] as $user): ?>
+                    <tr class="border-b border-primary/10 hover:bg-primary/5 transition-colors">
+                      <td class="p-4">
+                        <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($user['avatar']) ?>"
+                          alt="<?= htmlspecialchars($user['username']) ?>"
+                          class="w-10 h-10 rounded-full object-cover border-2 border-accent">
+                      </td>
+                      <td class="p-4">
+                        <span class="font-medium text-accent">
+                          <?= htmlspecialchars($user['username']) ?>
+                        </span>
+                      </td>
+                      <td class="p-4 text-textColor/80">
+                        <?= htmlspecialchars($user['email']) ?>
+                      </td>
+                      <td class="p-4">
+                        <span class="px-3 py-1 rounded-full text-sm bg-primary/20 text-primary">
+                          <?= htmlspecialchars($user['role']) ?>
+                        </span>
+                      </td>
+                      <td class="p-4">
+                        <span
+                          class="px-3 py-1 rounded-full text-sm <?= $user['active'] ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500' ?>">
+                          <?= $user['active'] ? 'Active' : 'Banned' ?>
+                        </span>
+                      </td>
+                      <td class="p-4">
+                        <form method="POST" class="inline-block" action="/AdminController/manageBan">
+                          <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                          <input type="hidden" name="action" value="<?= $user['active'] ? 'ban' : 'unban' ?>">
+                          <button type="submit" class="px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 
+                                                        <?= $user['active']
+                                                          ? 'bg-red-500/20 text-red-500 hover:bg-red-500/30'
+                                                          : 'bg-green-500/20 text-green-500 hover:bg-green-500/30' ?>">
+                            <i class='bx <?= $user['active'] ? 'bx-block' : 'bx-check' ?>'></i>
+                            <?= $user['active'] ? 'Ban User' : 'Unban User' ?>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="6" class="p-8 text-center text-textColor/60">
+                      <div class="flex flex-col items-center gap-2">
+                        <i class='bx bx-user-x text-4xl'></i>
+                        <span class="font-medium">No users found</span>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endif; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <script src="<?= ROOTURL ?>/js/menu.js"></script>
 </body>
 
 </html>

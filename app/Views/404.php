@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,20 +35,11 @@
         };
     </script>
 </head>
+
 <body class="bg-background min-h-screen">
     <div class="min-h-screen bg-black/40 flex flex-col">
         <!-- Navigation -->
-        <nav class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
-            <!-- Logo -->
-            <div class="text-white text-2xl font-semibold">
-                <a href="home.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                        <path d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z" fill="#6D28D9"/>
-                        <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
-                    </svg>
-                </a>
-            </div>
-        </nav>
+        <?php require_once APPROOT . '/app/Views/header.php'; ?>
 
         <!-- 404 Content -->
         <main class="flex-grow flex flex-col items-center justify-center px-4 mt-20">
@@ -55,7 +47,7 @@
             <div class="relative w-full max-w-2xl mx-auto">
                 <!-- Floating 404 Text -->
                 <h1 class="text-9xl font-bold text-accent text-center animate-float mb-8">404</h1>
-                
+
                 <!-- Spinning Icons -->
                 <div class="absolute top-0 left-0 animate-spin-slow">
                     <i class='bx bx-music text-4xl text-primary/40'></i>
@@ -63,7 +55,7 @@
                 <div class="absolute top-0 right-0 animate-spin-slow">
                     <i class='bx bx-calendar text-4xl text-secondary/40'></i>
                 </div>
-                
+
                 <!-- Bouncing Elements -->
                 <div class="flex justify-center gap-4 mb-8">
                     <i class='bx bx-error-circle text-6xl text-accent animate-bounce-slow'></i>
@@ -73,15 +65,18 @@
             <!-- Error Message -->
             <div class="text-center mb-8 animate-fade-in">
                 <h2 class="text-2xl md:text-4xl font-bold text-textColor mb-4">Oops! Page Not Found</h2>
-                <p class="text-textColor/70 text-lg mb-8">The page you're looking for doesn't exist or has been moved.</p>
+                <p class="text-textColor/70 text-lg mb-8">The page you're looking for doesn't exist or has been moved.
+                </p>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col md:flex-row gap-4">
-                <a href="home.php" class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
+                <a href="home.php"
+                    class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
                     <i class='bx bx-home'></i>Go Home
                 </a>
-                <button onclick="window.history.back()" class="px-8 py-3 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
+                <button onclick="window.history.back()"
+                    class="px-8 py-3 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
                     <i class='bx bx-arrow-back'></i>Go Back
                 </button>
             </div>
@@ -95,22 +90,9 @@
         </footer>
     </div>
 
-    <script>
-        // Add random floating elements animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainSection = document.querySelector('main');
-            const icons = ['bx-music', 'bx-calendar', 'bx-star', 'bx-heart'];
-            
-            for (let i = 0; i < 10; i++) {
-                const icon = document.createElement('i');
-                icon.className = `bx ${icons[Math.floor(Math.random() * icons.length)]} absolute text-2xl text-primary/20`;
-                icon.style.left = `${Math.random() * 100}%`;
-                icon.style.top = `${Math.random() * 100}%`;
-                icon.style.animation = `float ${3 + Math.random() * 2}s ease-in-out infinite`;
-                icon.style.animationDelay = `${Math.random() * 2}s`;
-                mainSection.appendChild(icon);
-            }
-        });
-    </script>
+    <script src="<?= ROOTURL . '/public/js/menu.js' ?>"></script>
+    <script src="<?= ROOTURL . '/public/js/404.js' ?>"></script>
+
 </body>
+
 </html>

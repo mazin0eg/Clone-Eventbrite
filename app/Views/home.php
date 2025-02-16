@@ -29,74 +29,9 @@
     <div class="min-h-screen bg-black/40">
         <!-- Navigation -->
         <!-- Header with gradient background -->
-        <header
-            class="bg-background fixed top-0 w-full h-20 flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent z-50 px-4 md:px-8">
-            <!-- Logo -->
-            <div class="text-white text-2xl font-semibold">
-                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
-                    <path
-                        d="M10 20C10 14.4772 14.4772 10 20 10H100C105.523 10 110 14.4772 110 20V20C110 25.5228 105.523 30 100 30H20C14.4772 30 10 25.5228 10 20V20Z"
-                        fill="#6D28D9" />
-                    <text x="20" y="28" font-family="Arial" font-size="20" fill="#FFFFFF">Evento</text>
-                </svg>
-            </div>
-
-            <!-- Navigation Menu -->
-            <nav class="flex items-center space-x-6">
-                <!-- Common Links for all users -->
-                <a href="/home" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                    <i class='bx bx-home-alt'></i>Home
-                </a>
-                <a href="/Event" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                    <i class='bx bx-calendar-event'></i>Events
-                </a>
-
-                <?php if (isset($_SESSION['user'])): ?>
-                    <?php $role = $_SESSION['user']->getRole(); ?>
-
-                    <?php if ($role === 'organisateur'): ?>
-                        <a href="/dashboard" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                            <i class='bx bx-layout'></i>Dashboard
-                        </a>
-                    <?php elseif ($role === 'admin'): ?>
-                        <a href="/admin" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                            <i class='bx bx-cog'></i>Admin Space
-                        </a>
-                    <?php elseif ($role === 'participant'): ?>
-                        <a href="/ticket" class="text-textColor hover:text-accent transition-all flex items-center gap-2">
-                            <i class='bx bx-ticket'></i>Tickets
-                        </a>
-                    <?php endif; ?>
-
-                    <!-- Profile Section for logged-in users -->
-                    <div class="relative ml-4">
-                        <button onclick="toggleDropdown()"
-                            class="flex items-center gap-3 p-2 rounded-full hover:bg-primary/20 transition-all">
-                            <img src="/api/placeholder/40/40" alt="Profile"
-                                class="w-10 h-10 rounded-full object-cover border-2 border-accent">
-                            <span class="text-textColor"><?php echo $_SESSION['user']->name; ?></span>
-                            <i class='bx bx-chevron-down text-textColor'></i>
-                        </button>
-
-                        <!-- Dropdown Menu -->
-                        <div id="dropdownMenu"
-                            class="absolute right-0 mt-2 w-48 bg-inputBg rounded-xl shadow-lg py-1 hidden">
-                            <button onclick="logout()"
-                                class="w-full text-left px-4 py-2 text-sm text-accent hover:bg-primary/20 transition-all flex items-center gap-2">
-                                <i class='bx bx-log-out'></i>Logout
-                            </button>
-                        </div>
-                    </div>
-
-                <?php else: ?>
-                    <!-- Sign In Button for logged-out users -->
-                    <a href="login.html"
-                        class="px-4 py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all flex items-center gap-2">
-                        <i class='bx bx-log-in'></i>Sign In
-                    </a>
-                <?php endif; ?>
-            </nav>
-        </header>
+        <?php
+        require_once APPROOT . '/app/Views/header.php';
+        ?>
 
         <!-- Hero Section -->
         <section class="pt-32 pb-16 px-4">
@@ -299,77 +234,7 @@
             </div>
         </div>
     </footer>
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-            menu.classList.toggle('flex-col');
-            menu.classList.toggle('absolute');
-            menu.classList.toggle('top-20');
-            menu.classList.toggle('left-0');
-            menu.classList.toggle('w-full');
-            menu.classList.toggle('bg-primary/20');
-            menu.classList.toggle('backdrop-blur-lg');
-            menu.classList.toggle('p-4');
-        }
-
-        function logout() {
-            // Add logout logic here
-            alert('Logging out...');
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get DOM elements
-            const signInBtn = document.getElementById('signInBtn');
-            const profileSection = document.getElementById('profileSection');
-            const profileBtn = document.getElementById('profileBtn');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const arrowIcon = document.getElementById('arrowIcon');
-
-            // For testing - set to true to show profile section
-            let isLoggedIn = true; // Change to false for production
-
-            // Update UI based on login state
-            function updateUI() {
-                if (isLoggedIn) {
-                    signInBtn.classList.add('hidden');
-                    profileSection.classList.remove('hidden');
-                } else {
-                    signInBtn.classList.remove('hidden');
-                    profileSection.classList.add('hidden');
-                    dropdownMenu.classList.add('hidden');
-                }
-            }
-
-            // Toggle dropdown
-            profileBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                dropdownMenu.classList.toggle('hidden');
-                arrowIcon.classList.toggle('rotate-180');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function (e) {
-                if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                    dropdownMenu.classList.add('hidden');
-                    arrowIcon.classList.remove('rotate-180');
-                }
-            });
-
-            // Handle logout
-            logoutBtn.addEventListener('click', function () {
-                isLoggedIn = false;
-                updateUI();
-                // Add your logout logic here
-                window.location.href = 'login.html';
-            });
-
-            // Initial UI setup
-            updateUI();
-        });
-    </script>
+    <script src="<?= ROOTURL . '/public/js/menu.js'?>"></script>
 </body>
 
 </html>
