@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +60,7 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(109, 40, 217, 0.2);
         }
-        
+
         .counter-badge {
             position: absolute;
             top: -8px;
@@ -95,80 +96,13 @@
         }
     </style>
 </head>
+
 <body class="bg-background min-h-screen overflow-hidden">
     <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 glassmorphism fixed h-full transition-transform duration-300 z-50" id="sidebar">
-            <!-- Logo -->
-            <div class="p-4 border-b border-primary/20">
-                <a href="#" class="flex items-center gap-2">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        Evento
-                    </div>
-                </a>
-            </div>
 
-            <!-- User Profile Preview -->
-            <div class="p-4 border-b border-primary/20">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent p-[2px]">
-                        <div class="w-full h-full rounded-full overflow-hidden">
-                            <img src="https://via.placeholder.com/100" alt="Profile" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-textColor font-medium">John Doe</h3>
-                        <p class="text-textColor/60 text-sm">Organizer</p>
-                    </div>
-                </div>
-            </div>
-
-           <!-- Navigation -->
-<nav class="p-4 custom-scrollbar overflow-y-auto h-[calc(100vh-200px)]">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="dachboard.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link ">
-                            <i class='bx bxs-dashboard text-xl'></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="createevent.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link active">
-                            <i class='bx bx-plus-circle text-xl'></i>
-                            Add Event
-                        </a>
-                    </li>
-                    <li>
-                        <a href="events.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-calendar-event text-xl'></i>
-                            Events
-                            <span class="counter-badge">8</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tickets.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-ticket text-xl'></i>
-                            Tickets
-                            <span class="counter-badge">12</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="profile.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-user text-xl'></i>
-                            Profile
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Logout Button -->
-            <div class="absolute bottom-0 w-full p-4 border-t border-primary/20">
-                <button class="w-full flex items-center gap-3 text-textColor hover:bg-accent/20 p-3 rounded-lg transition-all group">
-                    <i class='bx bx-log-out text-xl group-hover:rotate-180 transition-transform'></i>
-                    Logout
-                </button>
-            </div>
-        </aside>
+        <?php
+        require_once APPROOT . '/app/Views/organizer/sidebar.php';
+        ?>
 
         <!-- Main Content -->
         <main class="ml-64 flex-1 min-h-screen bg-background/95 relative overflow-hidden">
@@ -177,19 +111,19 @@
                 <button id="menu-toggle" class="text-textColor hover:text-primary transition-colors">
                     <i class='bx bx-menu text-2xl'></i>
                 </button>
-                
+
                 <div class="flex items-center gap-6">
                     <!-- Search -->
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="bg-inputBg text-textColor rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-64">
+                        <input type="text" placeholder="Search..."
+                            class="bg-inputBg text-textColor rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-64">
                         <i class='bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-textColor/60'></i>
                     </div>
-                    
+
                     <!-- Notifications -->
                     <div class="relative">
                         <button class="text-textColor hover:text-primary transition-colors">
                             <i class='bx bx-bell text-xl'></i>
-                            <span class="counter-badge">3</span>
                         </button>
                     </div>
                 </div>
@@ -206,11 +140,14 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-textColor mb-2">Event Title</label>
-                                    <input type="text" class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none" placeholder="Enter event title" maxlength="50">
+                                    <input type="text"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        placeholder="Enter event title" maxlength="50">
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Event Category</label>
-                                    <select class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                    <select
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                         <option value="">Select category</option>
                                         <option value="music">Music</option>
                                         <option value="sports">Sports</option>
@@ -221,22 +158,28 @@
 
                             <div>
                                 <label class="block text-textColor mb-2">Description</label>
-                                <textarea class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none h-32" placeholder="Enter event description" maxlength="255"></textarea>
+                                <textarea
+                                    class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none h-32"
+                                    placeholder="Enter event description" maxlength="255"></textarea>
                             </div>
 
                             <!-- Event Details Grid -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
                                     <label class="block text-textColor mb-2">Date</label>
-                                    <input type="date" class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                    <input type="date"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Time</label>
-                                    <input type="time" class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                    <input type="time"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Location</label>
-                                    <input type="text" class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none" placeholder="Enter location">
+                                    <input type="text"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        placeholder="Enter location">
                                 </div>
                             </div>
 
@@ -245,15 +188,20 @@
                                 <div>
                                     <label class="block text-textColor mb-2">Price</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-textColor/60">$</span>
-                                        <input type="number" class="w-full bg-inputBg text-textColor rounded-lg p-3 pl-8 border border-primary/20 focus:border-primary outline-none" placeholder="0.00">
+                                        <span
+                                            class="absolute left-3 top-1/2 -translate-y-1/2 text-textColor/60">$</span>
+                                        <input type="number"
+                                            class="w-full bg-inputBg text-textColor rounded-lg p-3 pl-8 border border-primary/20 focus:border-primary outline-none"
+                                            placeholder="0.00">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Capacity</label>
-                                    <input type="number" class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none" placeholder="Enter capacity">
+                                    <input type="number"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        placeholder="Enter capacity">
                                 </div>
-                               
+
                             </div>
 
                             <!-- Image Upload -->
@@ -262,17 +210,19 @@
                                 <div class="border-2 border-dashed border-primary/20 rounded-lg p-8 text-center">
                                     <i class='bx bx-upload text-4xl text-primary/60 mb-2'></i>
                                     <p class="text-textColor/60">Drag and drop your image here or</p>
-                                    <button type="button" class="text-primary hover:text-primary/80">browse files</button>
+                                    <button type="button" class="text-primary hover:text-primary/80">browse
+                                        files</button>
                                     <input type="file" class="hidden" accept="image/*">
                                 </div>
                             </div>
 
                             <!-- Submit Buttons -->
                             <div class="flex gap-4">
-                                <button type="submit" class="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor py-3 rounded-lg transition-all transform hover:scale-[1.02]">
+                                <button type="submit"
+                                    class="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor py-3 rounded-lg transition-all transform hover:scale-[1.02]">
                                     Create Event
                                 </button>
-                               
+
                             </div>
                         </form>
                     </div>
@@ -286,9 +236,9 @@
         const menuToggle = document.getElementById('menu-toggle');
         let sidebarVisible = true;
 
-    
-      
-         
+
+
+
         // Toggle sidebar
         menuToggle.addEventListener('click', () => {
             sidebarVisible = !sidebarVisible;
@@ -300,7 +250,7 @@
         function createFloatingElements() {
             const mainContent = document.querySelector('main');
             const icons = ['bx-music', 'bx-calendar', 'bx-star', 'bx-heart', 'bx-ticket'];
-            
+
             for (let i = 0; i < 15; i++) {
                 const icon = document.createElement('i');
                 icon.className = `bx ${icons[Math.floor(Math.random() * icons.length)]} absolute text-2xl text-primary/10`;
@@ -399,9 +349,8 @@
         // Notification system
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${
-                type === 'success' ? 'bg-success' : 'bg-accent'
-            }`;
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${type === 'success' ? 'bg-success' : 'bg-accent'
+                }`;
             notification.innerHTML = `
                 <div class="flex items-center gap-2">
                     <i class='bx ${type === 'success' ? 'bx-check' : 'bx-x'} text-xl'></i>
@@ -454,4 +403,5 @@
         });
     </script>
 </body>
+
 </html>

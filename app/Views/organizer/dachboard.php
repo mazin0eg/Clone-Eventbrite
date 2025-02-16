@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +60,7 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(109, 40, 217, 0.2);
         }
-        
+
         .counter-badge {
             position: absolute;
             top: -8px;
@@ -95,80 +96,13 @@
         }
     </style>
 </head>
+
 <body class="bg-background min-h-screen overflow-hidden">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 glassmorphism fixed h-full transition-transform duration-300 z-50" id="sidebar">
-            <!-- Logo -->
-            <div class="p-4 border-b border-primary/20">
-                <a href="#" class="flex items-center gap-2">
-                    <div class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        Evento
-                    </div>
-                </a>
-            </div>
-
-            <!-- User Profile Preview -->
-            <div class="p-4 border-b border-primary/20">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent p-[2px]">
-                        <div class="w-full h-full rounded-full overflow-hidden">
-                            <img src="https://via.placeholder.com/100" alt="Profile" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-textColor font-medium">John Doe</h3>
-                        <p class="text-textColor/60 text-sm">Organizer</p>
-                    </div>
-                </div>
-            </div>
-
-                       <!-- Navigation -->
-<nav class="p-4 custom-scrollbar overflow-y-auto h-[calc(100vh-200px)]">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="dachboard.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link active">
-                            <i class='bx bxs-dashboard text-xl'></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="createevent.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link ">
-                            <i class='bx bx-plus-circle text-xl'></i>
-                            Add Event
-                        </a>
-                    </li>
-                    <li>
-                        <a href="events.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-calendar-event text-xl'></i>
-                            Events
-                            <span class="counter-badge">8</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tickets.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-ticket text-xl'></i>
-                            Tickets
-                            <span class="counter-badge">12</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="profile.php" class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link">
-                            <i class='bx bx-user text-xl'></i>
-                            Profile
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Logout Button -->
-            <div class="absolute bottom-0 w-full p-4 border-t border-primary/20">
-                <button class="w-full flex items-center gap-3 text-textColor hover:bg-accent/20 p-3 rounded-lg transition-all group">
-                    <i class='bx bx-log-out text-xl group-hover:rotate-180 transition-transform'></i>
-                    Logout
-                </button>
-            </div>
-        </aside>
+        <?php
+        require_once APPROOT . '/app/Views/organizer/sidebar.php';
+        ?>
 
         <!-- Main Content -->
         <main class="ml-64 flex-1 min-h-screen bg-background/95 relative overflow-hidden">
@@ -177,14 +111,15 @@
                 <button id="menu-toggle" class="text-textColor hover:text-primary transition-colors">
                     <i class='bx bx-menu text-2xl'></i>
                 </button>
-                
+
                 <div class="flex items-center gap-6">
                     <!-- Search -->
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="bg-inputBg text-textColor rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-64">
+                        <input type="text" placeholder="Search..."
+                            class="bg-inputBg text-textColor rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-primary/50 w-64">
                         <i class='bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-textColor/60'></i>
                     </div>
-                    
+
                     <!-- Notifications -->
                     <div class="relative">
                         <button class="text-textColor hover:text-primary transition-colors">
@@ -202,7 +137,8 @@
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-2xl font-bold text-textColor">Dashboard Overview</h2>
                         <div class="flex gap-2">
-                            <button class="px-4 py-2 rounded-lg bg-primary/20 text-textColor hover:bg-primary/30 transition-colors">
+                            <button
+                                class="px-4 py-2 rounded-lg bg-primary/20 text-textColor hover:bg-primary/30 transition-colors">
                                 <i class='bx bx-filter-alt mr-2'></i>Filter
                             </button>
                         </div>
@@ -211,13 +147,15 @@
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <!-- Total Events Card -->
-                        <div class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
+                        <div
+                            class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <p class="text-textColor/60">Total Events</p>
                                     <h3 class="text-3xl font-bold text-textColor mt-2">24</h3>
                                 </div>
-                                <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
+                                <div
+                                    class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
                                     <i class='bx bx-calendar text-2xl text-primary group-hover:text-white'></i>
                                 </div>
                             </div>
@@ -228,13 +166,15 @@
                         </div>
 
                         <!-- Active Tickets Card -->
-                        <div class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
+                        <div
+                            class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <p class="text-textColor/60">Active Tickets</p>
                                     <h3 class="text-3xl font-bold text-textColor mt-2">156</h3>
                                 </div>
-                                <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center group-hover:bg-accent transition-colors">
+                                <div
+                                    class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center group-hover:bg-accent transition-colors">
                                     <i class='bx bx-ticket text-2xl text-accent group-hover:text-white'></i>
                                 </div>
                             </div>
@@ -245,13 +185,15 @@
                         </div>
 
                         <!-- Total Revenue Card -->
-                        <div class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
+                        <div
+                            class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <p class="text-textColor/60">Total Revenue</p>
                                     <h3 class="text-3xl font-bold text-textColor mt-2">$12,846</h3>
                                 </div>
-                                <div class="w-12 h-12 rounded-lg bg-success/20 flex items-center justify-center group-hover:bg-success transition-colors">
+                                <div
+                                    class="w-12 h-12 rounded-lg bg-success/20 flex items-center justify-center group-hover:bg-success transition-colors">
                                     <i class='bx bx-dollar text-2xl text-success group-hover:text-white'></i>
                                 </div>
                             </div>
@@ -262,13 +204,15 @@
                         </div>
 
                         <!-- Total Users Card -->
-                        <div class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
+                        <div
+                            class="glassmorphism rounded-xl p-6 hover:transform hover:scale-105 transition-all cursor-pointer group">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <p class="text-textColor/60">Total Users</p>
                                     <h3 class="text-3xl font-bold text-textColor mt-2">1,243</h3>
                                 </div>
-                                <div class="w-12 h-12 rounded-lg bg-warning/20 flex items-center justify-center group-hover:bg-warning transition-colors">
+                                <div
+                                    class="w-12 h-12 rounded-lg bg-warning/20 flex items-center justify-center group-hover:bg-warning transition-colors">
                                     <i class='bx bx-user text-2xl text-warning group-hover:text-white'></i>
                                 </div>
                             </div>
@@ -299,7 +243,8 @@
                                         <td class="py-3 px-4">
                                             <div class="flex items-center gap-3">
                                                 <div class="w-10 h-10 rounded-lg overflow-hidden">
-                                                    <img src="https://via.placeholder.com/40" alt="Event" class="w-full h-full object-cover">
+                                                    <img src="https://via.placeholder.com/40" alt="Event"
+                                                        class="w-full h-full object-cover">
                                                 </div>
                                                 <div>
                                                     <p class="text-textColor font-medium">Summer Music Festival</p>
@@ -311,14 +256,17 @@
                                         <td class="py-3 px-4 text-textColor">Central Park</td>
                                         <td class="py-3 px-4 text-textColor">$99.00</td>
                                         <td class="py-3 px-4">
-                                            <span class="px-3 py-1 rounded-full text-sm bg-success/20 text-success">Active</span>
+                                            <span
+                                                class="px-3 py-1 rounded-full text-sm bg-success/20 text-success">Active</span>
                                         </td>
                                         <td class="py-3 px-4">
                                             <div class="flex gap-2">
-                                                <button class="p-2 rounded-lg bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors">
+                                                <button
+                                                    class="p-2 rounded-lg bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors">
                                                     <i class='bx bx-edit'></i>
                                                 </button>
-                                                <button class="p-2 rounded-lg bg-accent/20 text-accent hover:bg-accent hover:text-white transition-colors">
+                                                <button
+                                                    class="p-2 rounded-lg bg-accent/20 text-accent hover:bg-accent hover:text-white transition-colors">
                                                     <i class='bx bx-trash'></i>
                                                 </button>
                                             </div>
@@ -331,19 +279,19 @@
                     </div>
                 </section>
 
-            
+
             </div>
         </main>
     </div>
 
     <script>
-       
+
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menu-toggle');
         let sidebarVisible = true;
 
-       
-           
+
+
 
         // Toggle sidebar
         menuToggle.addEventListener('click', () => {
@@ -356,7 +304,7 @@
         function createFloatingElements() {
             const mainContent = document.querySelector('main');
             const icons = ['bx-music', 'bx-calendar', 'bx-star', 'bx-heart', 'bx-ticket'];
-            
+
             for (let i = 0; i < 15; i++) {
                 const icon = document.createElement('i');
                 icon.className = `bx ${icons[Math.floor(Math.random() * icons.length)]} absolute text-2xl text-primary/10`;
@@ -455,9 +403,8 @@
         // Notification system
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${
-                type === 'success' ? 'bg-success' : 'bg-accent'
-            }`;
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${type === 'success' ? 'bg-success' : 'bg-accent'
+                }`;
             notification.innerHTML = `
                 <div class="flex items-center gap-2">
                     <i class='bx ${type === 'success' ? 'bx-check' : 'bx-x'} text-xl'></i>
@@ -510,4 +457,5 @@
         });
     </script>
 </body>
+
 </html>
