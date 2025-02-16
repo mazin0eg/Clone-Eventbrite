@@ -81,7 +81,7 @@
                         </span>
                       </td>
                       <td class="p-4">
-                        <form method="POST" class="inline-block">
+                        <form method="POST" class="inline-block" action="/AdminController/manageBan">
                           <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                           <input type="hidden" name="action" value="<?= $user['active'] ? 'ban' : 'unban' ?>">
                           <button type="submit" class="px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 
