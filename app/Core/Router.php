@@ -24,19 +24,22 @@ class Router
             $this->notFound();
         }
 
-        $this->currentController = new $controllerClass();
+        $currentController = new $controllerClass();
 
 
         if (isset($url[1])) {
-            if (method_exists($this->currentController, $url[1])) {
-                $this->currentMethod = $url[1];
+            if (method_exists($currentController, $url[1])) {
+                $currentMethod = $url[1];
                 unset($url[1]);
             }
+        } else {
+            $currentMethod = $this->currentMethod;
         }
 
         $this->params = $url ? array_values($url) : [];
+        $this->executeMiddlewares($currentController, $currentMethod);
 
-        call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+        call_user_func_array([$currentController, $currentMethod], $this->params);
     }
 
     private function getUrl()
@@ -54,6 +57,22 @@ class Router
         http_response_code(404);
         require_once '../app/views/404.php';
         exit();
+    }
+
+
+    private function executeMiddlewares($controller, $method)
+    {
+        $middlewares = $controller->getMiddlewares($method);
+
+        foreach ($middlewares as $middleware) {
+            if (is_string($middleware) && class_exists($middleware)) {
+                $middlewareInstance = new $middleware();
+            } else {
+                $middlewareInstance = $middleware;
+            }
+
+            $middlewareInstance->handle();
+        }
     }
 }
 

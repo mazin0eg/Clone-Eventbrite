@@ -2,6 +2,7 @@
 namespace App\Core;
 abstract class Controller
 {
+    protected $middlewares = [];
     public function model($model)
     {
         return new $model();
@@ -20,6 +21,19 @@ abstract class Controller
         header("Location: " . ROOTURL . "/$url");
         exit();
 
+    }
+
+    public function registerMiddleware($method, $middleware)
+    {
+        $this->middlewares[$method][] = $middleware;
+    }
+
+    public function getMiddlewares($method = null)
+    {
+        $methodMiddlewares = $method ? ($this->middlewares[$method] ?? []) : [];
+        $globalMiddlewares = $this->middlewares['*'] ?? [];
+        
+        return array_merge($globalMiddlewares, $methodMiddlewares);
     }
 }
 
