@@ -4,9 +4,13 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\User;
 use App\Models\Event;
+use App\Middlewares\RoleMiddleware;
 
 class AdminController extends Controller
 {
+    public function __construct(){
+        $this->registerMiddleware('*', new RoleMiddleware(['admin']));
+    }
     public function index()
     {
         $users = User::getAllUsers();
