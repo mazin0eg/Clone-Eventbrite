@@ -14,11 +14,12 @@
         <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent p-[2px]">
                 <div class="w-full h-full rounded-full overflow-hidden">
-                    <img src="https://via.placeholder.com/100" alt="Profile" class="w-full h-full object-cover">
+                    <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($data['user']->getAvatar()) ?>" alt="Profile"
+                        class="w-full h-full object-cover">
                 </div>
             </div>
             <div>
-                <h3 class="text-textColor font-medium">John Doe</h3>
+                <h3 class="text-textColor font-medium"><?= $data['user']->getUsername() ?></h3>
                 <p class="text-textColor/60 text-sm">Organizer</p>
             </div>
         </div>
@@ -28,41 +29,41 @@
     <nav class="p-4 custom-scrollbar overflow-y-auto h-[calc(100vh-200px)]">
         <ul class="space-y-2">
             <li>
-                <a href="/dashboard"
+                <a href="<?= ROOTURL ?>/OrganizerController/dashboard"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
-                    <?= (isset($data['current_page']) && $data['current_page'] == 'dashboard') ? 'active bg-primary/20' : '' ?>">
+                    <?= (isset($data['currentPage']) && $data['currentPage'] == 'dashboard') ? 'active bg-primary/20' : '' ?>">
                     <i class='bx bxs-dashboard text-xl'></i>
                     Dashboard
                 </a>
             </li>
             <li>
-                <a href="/createevent"
+                <a href="<?= ROOTURL ?>/OrganizerController/createevent"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
-                    <?= (isset($data['current_page']) && $data['current_page'] == 'createevent') ? 'active bg-primary/20' : '' ?>">
+                    <?= (isset($data['currentPage']) && $data['currentPage'] == 'createevent') ? 'active bg-primary/20' : '' ?>">
                     <i class='bx bx-plus-circle text-xl'></i>
                     Add Event
                 </a>
             </li>
             <li>
-                <a href="/events"
+                <a href="<?= ROOTURL ?>/OrganizerController/events"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
-                    <?= (isset($data['current_page']) && $data['current_page'] == 'events') ? 'active bg-primary/20' : '' ?>">
+                    <?= (isset($data['currentPage']) && $data['currentPage'] == 'events') ? 'active bg-primary/20' : '' ?>">
                     <i class='bx bx-calendar-event text-xl'></i>
                     Events
                 </a>
             </li>
             <li>
-                <a href="/tickets"
+                <a href="<?= ROOTURL ?>/OrganizerController/tickets"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
-                    <?= (isset($data['current_page']) && $data['current_page'] == 'tickets') ? 'active bg-primary/20' : '' ?>">
+                    <?= (isset($data['currentPage']) && $data['currentPage'] == 'tickets') ? 'active bg-primary/20' : '' ?>">
                     <i class='bx bx-receipt text-xl'></i>
                     Tickets
                 </a>
             </li>
             <li>
-                <a href="/profile"
+                <a href="<?= ROOTURL ?>/OrganizerController/profile"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
-                    <?= (isset($data['current_page']) && $data['current_page'] == 'profile') ? 'active bg-primary/20' : '' ?>">
+                    <?= (isset($data['currentPage']) && $data['currentPage'] == 'profile') ? 'active bg-primary/20' : '' ?>">
                     <i class='bx bx-user text-xl'></i>
                     Profile
                 </a>
@@ -72,7 +73,7 @@
 
     <!-- Logout Link -->
     <div class="absolute bottom-0 w-full p-4 border-t border-primary/20">
-        <a href="/authController/logout"
+        <a href="<?= ROOTURL ?>/authController/logout"
             class="w-full flex items-center gap-3 text-textColor hover:bg-accent/20 p-3 rounded-lg transition-all group">
             <i class='bx bx-log-out text-xl group-hover:rotate-180 transition-transform'></i>
             Logout

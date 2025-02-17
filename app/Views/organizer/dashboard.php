@@ -175,7 +175,7 @@
                                 </div>
                                 <div
                                     class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center group-hover:bg-accent transition-colors">
-                                    <i class='bx bx-ticket text-2xl text-accent group-hover:text-white'></i>
+                                    <i class='bx bx-receipt text-2xl text-accent group-hover:text-white'></i>
                                 </div>
                             </div>
                             <div class="mt-4 flex items-center gap-2 text-success text-sm">

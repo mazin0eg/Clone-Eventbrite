@@ -152,8 +152,8 @@ abstract class User
 
             $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            throw new Exception("An error occurred while saving the user.");
+            throw new Exception("Database error: " . $e->getMessage());
+
         }
     }
 
