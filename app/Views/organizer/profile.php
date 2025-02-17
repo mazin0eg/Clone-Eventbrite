@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-textColor">John Doe</h2>
+                                <h2 class="text-2xl font-bold text-textColor"><?= $data['user']->getUsername() ?></h2>
                                 <p class="text-textColor/60">Event Organizer</p>
                                 <div class="flex gap-4 mt-4">
                                     <button
@@ -183,17 +183,17 @@
                                 <form class="space-y-4">
                                     <div>
                                         <label class="block text-textColor/60 mb-2">Full Name</label>
-                                        <input type="text" value="John Doe"
+                                        <input type="text" value="<?= $data['user']->getUsername() ?>"
                                             class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                     </div>
                                     <div>
                                         <label class="block text-textColor/60 mb-2">Email</label>
-                                        <input type="email" value="john@example.com"
+                                        <input type="email" value="<?= $data['user']->getEmail() ?>"
                                             class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                     </div>
                                     <div>
                                         <label class="block text-textColor/60 mb-2">Phone</label>
-                                        <input type="tel" value="+1 234 567 890"
+                                        <input type="tel" value="<?= $data['user']->getPhone() ?>"
                                             class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
                                     </div>
                                     <div>
