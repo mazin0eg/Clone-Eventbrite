@@ -9,10 +9,10 @@ abstract class Controller
     }
     public function view($view, $data = [])
     {
-        if (file_exists('../app/views/' . $view . '.php')) {
-            require_once '../app/views/' . $view . '.php';
+        if (file_exists(APPROOT . '/app/views/' . $view . '.php')) {
+            require_once APPROOT . '/app/views/' . $view . '.php';
         } else {
-            require_once '../app/views/404.php';
+            require_once APPROOT . '/app/views/404.php';
         }
     }
 
@@ -32,7 +32,7 @@ abstract class Controller
     {
         $methodMiddlewares = $method ? ($this->middlewares[$method] ?? []) : [];
         $globalMiddlewares = $this->middlewares['*'] ?? [];
-        
+
         return array_merge($globalMiddlewares, $methodMiddlewares);
     }
 }
