@@ -25,15 +25,13 @@ class Router
         }
 
         $currentController = new $controllerClass();
-
+        $currentMethod = $this->currentMethod;
 
         if (isset($url[1])) {
             if (method_exists($currentController, $url[1])) {
                 $currentMethod = $url[1];
                 unset($url[1]);
             }
-        } else {
-            $currentMethod = $this->currentMethod;
         }
 
         $this->params = $url ? array_values($url) : [];
