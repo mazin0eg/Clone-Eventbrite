@@ -1,68 +1,112 @@
 <?php
 namespace App\Models;
 use App\Core\Database;
-use PDO;
+
+
 class Event
 {
-    private $db;
+    private $id;
+    private $titre;
+    private $description;
+    private $date;
+    private $lieu;
+    private $prix;
+    private $capacite;
+    private $id_organisateur;
+    private $image;
+    private $id_category;
 
-    public function __construct()
+    // Constructor to initialize the event's attributes (no database connection here)
+    public function __construct($id = null, $titre = null, $description = null, $date = null, $lieu = null, $prix = null, $capacite = null, $id_organisateur = null, $image = null, $id_category = null)
     {
-        $this->db = Database::getInstance()->getConnection();
+        $this->id = $id;
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->date = $date;
+        $this->lieu = $lieu;
+        $this->prix = $prix;
+        $this->capacite = $capacite;
+        $this->id_organisateur = $id_organisateur;
+        $this->image = $image;
+        $this->id_category = $id_category;
     }
 
-    public static function getAllEvents()
+    
+    // Add Event to the database (insert)
+    public function addEvent(): bool
     {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->query("SELECT * FROM event");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getEventsByOrganisateur($id_organisateur)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM event WHERE id_organisateur = ?");
-        $stmt->execute([$id_organisateur]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function addEvent($data, $id_organisateur)
-    {
-        $stmt = $this->db->prepare("INSERT INTO event (titre, description, date, lieu, prix, capacite, id_organisateur, id_category) VALUES (?, ?, ?, ?, ?, ?, ?, NULL)");
+        $sql = "INSERT INTO events (titre, description, date, lieu, prix, capacite, id_organisateur, image, id_category) 
+                VALUES (:titre, :description, :date, :lieu, :prix, :capacite, :id_organisateur, :image, :id_category)";
+        
+        $stmt = Database::getInstance()->getConnection()->prepare($sql);
         return $stmt->execute([
-            $data['titre'],
-            $data['description'],
-            $data['date'],
-            $data['lieu'],
-            $data['prix'],
-            $data['capacite'],
-            $id_organisateur
+            ':titre' => $this->titre,
+            ':description' => $this->description,
+            ':date' => $this->date,
+            ':lieu' => $this->lieu,
+            ':prix' => $this->prix,
+            ':capacite' => $this->capacite,
+            ':id_organisateur' => $this->id_organisateur,
+            ':image' => $this->image,
+            ':id_category' => $this->id_category
         ]);
     }
 
-    public function editEvent($data, $id_organisateur)
+  
+    public function updateEvent(): bool
     {
-        $stmt = $this->db->prepare("UPDATE event SET titre=?, description=?, date=?, lieu=?, prix=?, capacite=? WHERE id=? AND id_organisateur=?");
+        $sql = "UPDATE events SET 
+                titre = :titre, 
+                description = :description, 
+                date = :date, 
+                lieu = :lieu, 
+                prix = :prix, 
+                capacite = :capacite, 
+                id_organisateur = :id_organisateur, 
+                image = :image, 
+                id_category = :id_category
+                WHERE id = :id";
+        
+        $stmt = Database::getInstance()->getConnection()->prepare($sql);
         return $stmt->execute([
-            $data['titre'],
-            $data['description'],
-            $data['date'],
-            $data['lieu'],
-            $data['prix'],
-            $data['capacite'],
-            $data['id'],
-            $id_organisateur
+            ':id' => $this->id,
+            ':titre' => $this->titre,
+            ':description' => $this->description,
+            ':date' => $this->date,
+            ':lieu' => $this->lieu,
+            ':prix' => $this->prix,
+            ':capacite' => $this->capacite,
+            ':id_organisateur' => $this->id_organisateur,
+            ':image' => $this->image,
+            ':id_category' => $this->id_category
         ]);
     }
 
-    public function deleteEvent($id, $role, $id_organisateur)
+    
+    public function deleteEvent(): bool
     {
-        if ($role === 'admin') {
-            $stmt = $this->db->prepare("DELETE FROM event WHERE id=?");
-            return $stmt->execute([$id]);
-        } else {
-            $stmt = $this->db->prepare("DELETE FROM event WHERE id=? AND id_organisateur=?");
-            return $stmt->execute([$id, $id_organisateur]);
-        }
+        $sql = "DELETE FROM events WHERE id = :id";
+        $stmt = Database::getInstance()->getConnection()->prepare($sql);
+        return $stmt->execute([':id' => $this->id]);
+    }
+
+ 
+    public static function getAllEvents(): array
+    {
+        $sql = "SELECT * FROM events";
+        $stmt = Database :: getInstance()->getConnection()->query($sql);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+ 
+    public static function getEventById($id): ?array
+    {
+        $sql = "SELECT * FROM events WHERE id = :id";
+        $stmt = Database::getInstance()->getConnection()->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 }
+
 ?>
+
