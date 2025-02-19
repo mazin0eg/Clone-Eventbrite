@@ -28,7 +28,7 @@
 <body class="bg-background min-h-screen">
 
     <?php
-    // require_once APPROOT . '/app/Views/header.php';
+    require_once APPROOT . '/app/Views/header.php';
     ?>
     <?php if (empty($data['event'])): ?>
         <!-- Empty State -->
