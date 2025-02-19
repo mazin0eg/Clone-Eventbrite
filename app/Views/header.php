@@ -40,7 +40,7 @@ if (isset($_SESSION['user'])) {
             <?php $role = $user->getRole(); ?>
 
             <?php if ($role === 'organisateur'): ?>
-                <a href="<?= ROOTURL ?>/EventController/index"
+                <a href="<?= ROOTURL ?>/OrganizerController/dashbord"
                     class="text-textColor hover:text-accent transition-all flex items-center gap-2">
                     <i class='bx bx-layout'></i>Dashboard
                 </a>
@@ -50,7 +50,7 @@ if (isset($_SESSION['user'])) {
                     <i class='bx bx-cog'></i>Admin Space
                 </a>
             <?php elseif ($role === 'participant'): ?>
-                <a href="/TicketController/index"
+                <a href="<?= ROOTURL ?>/EventController/ticket"
                     class="text-textColor hover:text-accent transition-all flex items-center gap-2">
                     <i class='bx bx-receipt'></i>Tickets
                 </a>

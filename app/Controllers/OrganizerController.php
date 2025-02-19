@@ -3,8 +3,8 @@
 namespace App\Controllers;
 use App\Core\Controller;
 use App\Middlewares\RoleMiddleware;
-use App\Models\Participant;
-use App\Models\Organizer;
+use App\Models\Category;
+use App\Models\Event;
 
 class OrganizerController extends Controller
 {
@@ -19,18 +19,22 @@ class OrganizerController extends Controller
         $data['user'] = unserialize($_SESSION['user']);
         $this->view('organizer/dashboard', $data);
     }
+
     public function dashboard()
     {
         $data['currentPage'] = 'dashboard';
         $data['user'] = unserialize($_SESSION['user']);
         $this->view('organizer/dashboard', $data);
     }
+
     public function createEvent()
     {
         $data['currentPage'] = 'createevent';
         $data['user'] = unserialize($_SESSION['user']);
+        $data['categories'] = Category::getAllCategories();
         $this->view('organizer/createevent', $data);
     }
+
     public function profile()
     {
         $data['currentPage'] = 'profile';
@@ -41,9 +45,12 @@ class OrganizerController extends Controller
     public function events()
     {
         $data['currentPage'] = 'events';
-        $data['user'] = unserialize($_SESSION['user']);
+        $user = unserialize($_SESSION['user']);
+        $data['user'] = $user;
+        $data['events'] = Event::getEventsByOrganisateur($user->getId());
         $this->view('organizer/events', $data);
     }
+
     public function tickets()
     {
         $data['currentPage'] = 'tickets';
@@ -51,8 +58,77 @@ class OrganizerController extends Controller
         $this->view('organizer/tickets', $data);
     }
 
+    public function addEvent()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect('OrganizerController/createEvent');
+            return;
+        }
 
+        $user = unserialize($_SESSION['user']);
+        $id_organisateur = $user->getId();
 
+        $requiredFields = ['titre', 'description', 'date', 'time', 'lieu', 'prix', 'capacite', 'id_category'];
+        foreach ($requiredFields as $field) {
+            if (empty($_POST[$field])) {
+                $_SESSION['error'] = 'All fields are required.';
+                $this->redirect('OrganizerController/createEvent');
+                return;
+            }
+        }
 
+        $dateTime = $_POST['date'] . ' ' . $_POST['time'] . ':00';
 
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            $_SESSION['error'] = 'Event image is required.';
+            $this->redirect('OrganizerController/createEvent');
+            return;
+        }
+
+        $image = $_FILES['image'];
+        if ($image['size'] > 5 * 1024 * 1024) {
+            $_SESSION['error'] = 'Image size should not exceed 5MB';
+            $this->redirect('OrganizerController/createEvent');
+            return;
+        }
+
+        $allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!in_array($image['type'], $allowedImageTypes)) {
+            $_SESSION['error'] = 'Only JPG and PNG images are allowed.';
+            $this->redirect('OrganizerController/createEvent');
+            return;
+        }
+
+        $imageTmpName = $image['tmp_name'];
+        $imageName = uniqid('event_') . basename($image['name']);
+        $targetDir = APPROOT . '/storage/uploads/';
+        $targetFile = $targetDir . $imageName;
+
+        if (!move_uploaded_file($imageTmpName, $targetFile)) {
+            $_SESSION['error'] = 'Error uploading image.';
+            $this->redirect('OrganizerController/createEvent');
+            return;
+        }
+
+        $eventData = [
+            'titre' => $_POST['titre'],
+            'description' => $_POST['description'],
+            'date' => $dateTime,
+            'lieu' => $_POST['lieu'],
+            'prix' => (float) $_POST['prix'],
+            'capacite' => (int) $_POST['capacite'],
+            'id_category' => $_POST['id_category']
+        ];
+
+        $event = new Event();
+        $result = $event->addEvent($eventData, $id_organisateur, $imageName);
+
+        if ($result) {
+            $_SESSION['success'] = 'Event created successfully!';
+            $this->redirect('OrganizerController/events');
+        } else {
+            $_SESSION['error'] = 'Failed to create event. Please try again.';
+            $this->redirect('OrganizerController/createEvent');
+        }
+    }
 }
