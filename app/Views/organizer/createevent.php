@@ -135,51 +135,57 @@
                 <section id="add-event-section" class="section active  animate-scale-in">
                     <div class="glassmorphism rounded-xl p-6 max-w-4xl mx-auto">
                         <h2 class="text-2xl font-bold text-textColor mb-6">Create New Event</h2>
-                        <form class="space-y-6" action="../../Controllers/EventController.php">
+                        <form class="space-y-6" action="<?= ROOTURL ?>/OrganizerController/addEvent" method="POST"
+                            enctype="multipart/form-data">
                             <!-- Event Details -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-textColor mb-2">Event Title</label>
-                                    <input type="text"
+                                    <input type="text" name="titre"
                                         class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
-                                        placeholder="Enter event title" maxlength="50">
+                                        placeholder="Enter event title" maxlength="50" required>
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Event Category</label>
                                     <select
-                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        name="id_category" required>
                                         <option value="">Select category</option>
-                                        <option value="music">Music</option>
-                                        <option value="sports">Sports</option>
-                                        <option value="tech">Technology</option>
+                                        <?php foreach ($data['categories'] as $category): ?>
+                                            <option value="<?= htmlspecialchars($category->getId()) ?>">
+                                                <?= htmlspecialchars($category->getName()) ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-textColor mb-2">Description</label>
-                                <textarea
+                                <textarea name="description"
                                     class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none h-32"
-                                    placeholder="Enter event description" maxlength="255"></textarea>
+                                    placeholder="Enter event description" maxlength="255" required></textarea>
                             </div>
 
                             <!-- Event Details Grid -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
                                     <label class="block text-textColor mb-2">Date</label>
-                                    <input type="date"
-                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                    <input type="date" name="date"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        required>
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Time</label>
-                                    <input type="time"
-                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none">
+                                    <input type="time" name="time"
+                                        class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
+                                        required>
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Location</label>
-                                    <input type="text"
+                                    <input type="text" name="lieu"
                                         class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
-                                        placeholder="Enter location">
+                                        placeholder="Enter location" required>
                                 </div>
                             </div>
 
@@ -190,18 +196,17 @@
                                     <div class="relative">
                                         <span
                                             class="absolute left-3 top-1/2 -translate-y-1/2 text-textColor/60">$</span>
-                                        <input type="number"
+                                        <input type="number" name="prix" step="0.01"
                                             class="w-full bg-inputBg text-textColor rounded-lg p-3 pl-8 border border-primary/20 focus:border-primary outline-none"
-                                            placeholder="0.00">
+                                            placeholder="0.00" required>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-textColor mb-2">Capacity</label>
-                                    <input type="number"
+                                    <input type="number" name="capacite"
                                         class="w-full bg-inputBg text-textColor rounded-lg p-3 border border-primary/20 focus:border-primary outline-none"
-                                        placeholder="Enter capacity">
+                                        placeholder="Enter capacity" required>
                                 </div>
-
                             </div>
 
                             <!-- Image Upload -->
@@ -210,9 +215,16 @@
                                 <div class="border-2 border-dashed border-primary/20 rounded-lg p-8 text-center">
                                     <i class='bx bx-upload text-4xl text-primary/60 mb-2'></i>
                                     <p class="text-textColor/60">Drag and drop your image here or</p>
-                                    <button type="button" class="text-primary hover:text-primary/80">browse
-                                        files</button>
-                                    <input type="file" class="hidden" accept="image/*">
+                                    <button type="button" class="text-primary hover:text-primary/80"
+                                        onclick="document.getElementById('eventImage').click()">browse files</button>
+                                    <input type="file" id="eventImage" name="image" class="hidden" accept="image/*"
+                                        required>
+                                    required>
+                                    <p class="text-xs text-textColor/60 mt-2">Max size: 5MB. Allowed formats: JPG, PNG
+                                    </p>
+                                    <div id="imagePreview" class="mt-3 hidden">
+                                        <img id="preview" class="max-h-40 mx-auto rounded-lg" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -222,7 +234,6 @@
                                     class="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor py-3 rounded-lg transition-all transform hover:scale-[1.02]">
                                     Create Event
                                 </button>
-
                             </div>
                         </form>
                     </div>
@@ -235,9 +246,6 @@
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menu-toggle');
         let sidebarVisible = true;
-
-
-
 
         // Toggle sidebar
         menuToggle.addEventListener('click', () => {
@@ -266,26 +274,41 @@
         createFloatingElements();
 
         // File upload preview
-        const fileInput = document.querySelector('input[type="file"]');
+        const fileInput = document.getElementById('eventImage');
         const uploadArea = document.querySelector('.border-dashed');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('preview');
 
         if (fileInput && uploadArea) {
-            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    fileInput.click();
+                }
+            });
+
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('border-primary');
             });
+
             uploadArea.addEventListener('dragleave', () => {
                 uploadArea.classList.remove('border-primary');
             });
+
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('border-primary');
                 const files = e.dataTransfer.files;
                 if (files.length) {
+                    // Create a new DataTransfer object and add the file
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(files[0]);
+                    // Set the file input's files property to the DataTransfer's files
+                    fileInput.files = dataTransfer.files;
                     handleFileUpload(files[0]);
                 }
             });
+
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files.length) {
                     handleFileUpload(e.target.files[0]);
@@ -297,26 +320,32 @@
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    uploadArea.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview" class="max-h-32 mx-auto mb-2">
-                        <p class="text-textColor/60">${file.name}</p>
-                        <button type="button" class="text-accent hover:text-accent/80 mt-2" onclick="resetFileUpload()">
-                            Remove
-                        </button>
-                    `;
+                    // Show the preview
+                    previewImg.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+
+                    // Add a remove button
+                    if (!document.getElementById('removeImageBtn')) {
+                        const removeBtn = document.createElement('button');
+                        removeBtn.id = 'removeImageBtn';
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'text-accent hover:text-accent/80 mt-2';
+                        removeBtn.innerText = 'Remove';
+                        removeBtn.onclick = resetFileUpload;
+                        imagePreview.appendChild(removeBtn);
+                    }
                 };
                 reader.readAsDataURL(file);
             }
         }
 
         function resetFileUpload() {
-            if (fileInput && uploadArea) {
+            if (fileInput) {
                 fileInput.value = '';
-                uploadArea.innerHTML = `
-                    <i class='bx bx-upload text-4xl text-primary/60 mb-2'></i>
-                    <p class="text-textColor/60">Drag and drop your image here or</p>
-                    <button type="button" class="text-primary hover:text-primary/80">browse files</button>
-                `;
+                imagePreview.classList.add('hidden');
+                if (document.getElementById('removeImageBtn')) {
+                    document.getElementById('removeImageBtn').remove();
+                }
             }
         }
 
@@ -349,14 +378,13 @@
         // Notification system
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${type === 'success' ? 'bg-success' : 'bg-accent'
-                }`;
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white transform transition-all duration-300 translate-x-full ${type === 'success' ? 'bg-success' : 'bg-accent'}`;
             notification.innerHTML = `
-                <div class="flex items-center gap-2">
-                    <i class='bx ${type === 'success' ? 'bx-check' : 'bx-x'} text-xl'></i>
-                    <p>${message}</p>
-                </div>
-            `;
+        <div class="flex items-center gap-2">
+            <i class='bx ${type === 'success' ? 'bx-check' : 'bx-x'} text-xl'></i>
+            <p>${message}</p>
+        </div>
+    `;
             document.body.appendChild(notification);
 
             // Animate in
@@ -372,14 +400,6 @@
                 }, 300);
             }, 3000);
         }
-
-        // Form submission handling
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                showNotification('Changes saved successfully!', 'success');
-            });
-        });
 
         // Initialize tooltips
         const tooltips = document.querySelectorAll('[data-tooltip]');

@@ -1,6 +1,6 @@
 <?php
 namespace App\Middlewares;
-use APP\Core\MiddlewareInterface;
+use App\Core\MiddlewareInterface;
 
 class AuthMiddleware implements MiddlewareInterface
 {
