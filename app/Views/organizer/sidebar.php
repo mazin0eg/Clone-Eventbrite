@@ -44,8 +44,8 @@ if (isset($_SESSION['message'])) {
     <nav class="p-4 custom-scrollbar overflow-y-auto h-[calc(100vh-200px)]">
         <ul class="space-y-2">
             <li>
-                <a href="<?= ROOTURL ?>/OrganizerController/dashboard"
-                <a href="<?= ROOTURL ?>/OrganizerController/dashboard"
+                <a href="<?= ROOTURL ?>/OrganizerController/dashboard" <a
+                    href="<?= ROOTURL ?>/OrganizerController/dashboard"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'dashboard') ? 'active bg-primary/20' : '' ?>">
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'dashboard') ? 'active bg-primary/20' : '' ?>">
@@ -54,8 +54,8 @@ if (isset($_SESSION['message'])) {
                 </a>
             </li>
             <li>
-                <a href="<?= ROOTURL ?>/OrganizerController/createevent"
-                <a href="<?= ROOTURL ?>/OrganizerController/createevent"
+                <a href="<?= ROOTURL ?>/OrganizerController/createevent" <a
+                    href="<?= ROOTURL ?>/OrganizerController/createevent"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'createevent') ? 'active bg-primary/20' : '' ?>">
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'createevent') ? 'active bg-primary/20' : '' ?>">
@@ -64,8 +64,7 @@ if (isset($_SESSION['message'])) {
                 </a>
             </li>
             <li>
-                <a href="<?= ROOTURL ?>/OrganizerController/events"
-                <a href="<?= ROOTURL ?>/OrganizerController/events"
+                <a href="<?= ROOTURL ?>/OrganizerController/events" <a href="<?= ROOTURL ?>/OrganizerController/events"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'events') ? 'active bg-primary/20' : '' ?>">
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'events') ? 'active bg-primary/20' : '' ?>">
@@ -74,8 +73,8 @@ if (isset($_SESSION['message'])) {
                 </a>
             </li>
             <li>
-                <a href="<?= ROOTURL ?>/OrganizerController/tickets"
-                <a href="<?= ROOTURL ?>/OrganizerController/tickets"
+                <a href="<?= ROOTURL ?>/OrganizerController/tickets" <a
+                    href="<?= ROOTURL ?>/OrganizerController/tickets"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'tickets') ? 'active bg-primary/20' : '' ?>">
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'tickets') ? 'active bg-primary/20' : '' ?>">
@@ -84,8 +83,8 @@ if (isset($_SESSION['message'])) {
                 </a>
             </li>
             <li>
-                <a href="<?= ROOTURL ?>/OrganizerController/profile"
-                <a href="<?= ROOTURL ?>/OrganizerController/profile"
+                <a href="<?= ROOTURL ?>/OrganizerController/profile" <a
+                    href="<?= ROOTURL ?>/OrganizerController/profile"
                     class="flex items-center gap-3 text-textColor hover:bg-primary/20 p-3 rounded-lg transition-all nav-link 
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'profile') ? 'active bg-primary/20' : '' ?>">
                     <?= (isset($data['currentPage']) && $data['currentPage'] == 'profile') ? 'active bg-primary/20' : '' ?>">
@@ -98,8 +97,7 @@ if (isset($_SESSION['message'])) {
 
     <!-- Logout Link -->
     <div class="absolute bottom-0 w-full p-4 border-t border-primary/20">
-        <a href="<?= ROOTURL ?>/authController/logout"
-        <a href="<?= ROOTURL ?>/authController/logout"
+        <a href="<?= ROOTURL ?>/authController/logout" <a href="<?= ROOTURL ?>/authController/logout"
             class="w-full flex items-center gap-3 text-textColor hover:bg-accent/20 p-3 rounded-lg transition-all group">
             <i class='bx bx-log-out text-xl group-hover:rotate-180 transition-transform'></i>
             Logout
