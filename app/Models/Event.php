@@ -111,4 +111,9 @@ class Event
         }
     }
 }
+?>=? AND id_organisateur=?");
+            return $stmt->execute([$id, $id_organisateur]);
+        }
+    }
+}
 ?>
