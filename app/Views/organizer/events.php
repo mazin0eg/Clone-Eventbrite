@@ -136,6 +136,50 @@
 
                 <!-- Profile Section -->
                 <section id="event-section" class="section active  animate-scale-in">
+                    <div id="event-section" class="section active animate-scale-in">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <?php foreach ($data['events'] as $event): ?>
+                                <div
+                                    class="bg-inputBg rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all">
+                                    <div class="relative">
+                                        <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($event['image']) ?>"
+                                            alt="Event" class="w-full h-48 object-cover">
+                                        <span
+                                            class="absolute top-4 right-4 px-3 py-1 rounded-full bg-primary/90 text-white text-sm">
+                                            <?= htmlspecialchars($event['category_name']) ?>
+                                        </span>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h3 class="text-xl font-semibold text-textColor">
+                                                <?= htmlspecialchars($event['titre']) ?>
+                                            </h3>
+                                            <span class="px-3 py-1 rounded-full bg-primary/20 text-accent text-sm">
+                                                $<?= htmlspecialchars($event['prix']) ?>
+                                            </span>
+                                        </div>
+                                        <p class="text-textColor/70 text-sm mb-4">
+                                            <?= htmlspecialchars($event['description']) ?>
+                                        </p>
+                                        <div class="flex items-center gap-2 text-textColor/60 text-sm mb-4">
+                                            <i class='bx bx-calendar'></i>
+                                            <span><?= htmlspecialchars($event['date']) ?></span>
+                                            <i class='bx bx-map ml-2'></i>
+                                            <span><?= htmlspecialchars($event['lieu']) ?></span>
+                                            <i class='bx bx-user-circle ml-2'></i>
+                                            <span>Capacity: <?= htmlspecialchars($event['capacite']) ?></span>
+                                        </div>
+                                        <a href="detail.php?id=<?= htmlspecialchars($event['id']) ?>">
+                                            <button
+                                                class="w-full py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-textColor transition-all">
+                                                Get Tickets
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
 
                 </section>
             </div>

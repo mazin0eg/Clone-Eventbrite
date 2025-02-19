@@ -1,4 +1,17 @@
 <!-- Sidebar -->
+
+<?php
+
+if (isset($_SESSION['error'])) {
+    echo "<script>alert('{$_SESSION['error']}')</script>";
+    unset($_SESSION['error']);
+}
+
+if (isset($_SESSION['message'])) {
+    echo "<script>alert('{$_SESSION['message']}')</script>";
+    unset($_SESSION['success']);
+}
+?>
 <aside class="w-64 glassmorphism fixed h-full transition-transform duration-300 z-50" id="sidebar">
     <!-- Logo -->
     <div class="p-4 border-b border-primary/20">
@@ -9,13 +22,14 @@
         </a>
     </div>
 
+
     <!-- User Profile Preview -->
     <div class="p-4 border-b border-primary/20">
         <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent p-[2px]">
                 <div class="w-full h-full rounded-full overflow-hidden">
-                    <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($data['user']->getAvatar()) ?>" alt="Profile"
-                        class="w-full h-full object-cover">
+                    <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($data['user']->getAvatar()) ?>"
+                        alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
             <div>
