@@ -13,6 +13,8 @@ class RoleMiddleware implements MiddlewareInterface
     public function handle()
     {
         if (!isset($_SESSION['user'])) {
+            $_SESSION['error'] = "You must be logged in to access this page.";
+
             header("Location:" . ROOTURL . "/");
             exit();
         }
@@ -20,7 +22,8 @@ class RoleMiddleware implements MiddlewareInterface
         $user = unserialize($_SESSION['user']);
 
         if (!in_array($user->getRole(), $this->requiredRoles)) {
-            header("Location:" . ROOTURL . "/");
+            $_SESSION['error'] = "You do not have permission to access this page.";
+            header("Location: " . ROOTURL . "/");
             exit();
         }
     }
