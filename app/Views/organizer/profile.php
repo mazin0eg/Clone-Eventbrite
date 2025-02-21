@@ -140,8 +140,8 @@
                         <div class="flex items-center gap-6 mb-8">
                             <div class="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-accent p-[2px]">
                                 <div class="w-full h-full rounded-full overflow-hidden">
-                                    <img src="https://via.placeholder.com/200" alt="Profile"
-                                        class="w-full h-full object-cover">
+                                    <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($data['user']->getAvatar()) ?>"
+                                        alt="Profile" class="w-full h-full object-cover">
                                 </div>
                             </div>
                             <div>
