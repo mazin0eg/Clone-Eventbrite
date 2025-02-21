@@ -4,4 +4,4 @@ composer.phar
 uploads
 storage
 /vendor/
-
+test.php
