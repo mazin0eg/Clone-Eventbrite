@@ -5,6 +5,7 @@ use App\Models\Event;
 use App\Middlewares\RoleMiddleware;
 use App\Models\Ticket;
 use App\Middlewares\AuthMiddleware;
+use Exception;
 
 
 
@@ -45,10 +46,17 @@ class EventController extends Controller
     public function reserve($ticketId)
     {
         $user = unserialize($_SESSION['user']);
-        $user->reserveTicket($ticketId);
+
+        try {
+            $user->reserveTicket($ticketId);
+            $_SESSION['success'] = "Ticket reserved successfully!";
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Failed to reserve the ticket.";
+        }
 
         $this->redirect('ticket');
     }
+
 }
 
 ?>
