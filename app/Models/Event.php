@@ -49,11 +49,10 @@ class Event
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
     public function addEvent($data, $id_organisateur, $imagePath)
     {
         $stmt = $this->db->prepare("INSERT INTO event (titre, description, date, lieu, prix, capacite, id_organisateur, id_category, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([
+        $stmt->execute([
             $data['titre'],
             $data['description'],
             $data['date'],
@@ -64,8 +63,9 @@ class Event
             $data['id_category'],
             $imagePath
         ]);
-    }
 
+        return $this->db->lastInsertId();
+    }
     public function editEvent($data, $id_organisateur, $imagePath = null)
     {
         // If new image is provided, update image as well
