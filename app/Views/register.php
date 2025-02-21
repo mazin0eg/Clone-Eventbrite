@@ -7,6 +7,8 @@
     <title>Register Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -31,15 +33,6 @@
         <?php
         require_once APPROOT . '/app/Views/header.php';
 
-        if (isset($_SESSION['error'])) {
-            echo "<script>alert('{$_SESSION['error']}')</script>";
-            unset($_SESSION['error']);
-        }
-
-        if (isset($_SESSION['message'])) {
-            echo "<script>alert('{$_SESSION['message']}')</script>";
-            unset($_SESSION['success']);
-        }
         ?>
 
         <!-- Register Form -->
