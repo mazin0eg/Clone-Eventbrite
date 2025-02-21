@@ -1,7 +1,3 @@
-function goBack() {
-    window.history.back();
-}
-
 function openPaymentModal(ticketType, price) {
     const modal = document.getElementById('paymentModal');
     const ticketTypeElement = document.getElementById('ticketType');
