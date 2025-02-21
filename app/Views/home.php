@@ -39,7 +39,7 @@
                 <h1 class="text-4xl md:text-6xl font-bold text-textColor mb-6">Discover Amazing Events</h1>
                 <p class="text-textColor/80 text-lg mb-8">Find and book tickets for the best events in your area</p>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <a href="events.html"
+                    <a href="<?= ROOTURL ?>/EventController/index"
                         class="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-textColor font-medium transition-all transform hover:scale-[1.02] inline-flex items-center gap-2">
                         <i class='bx bx-calendar-event'></i>Browse Events
                     </a>
