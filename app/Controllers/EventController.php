@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\core\Controller;
 use App\Models\Event;
 use App\Middlewares\RoleMiddleware;
+use App\Models\Ticket;
 use App\Middlewares\AuthMiddleware;
 
 
@@ -11,8 +12,10 @@ class EventController extends Controller
 {
     public function __construct()
     {
-        $this->registerMiddleware('*', new AuthMiddleware());
-        $this->registerMiddleware('ticket', AuthMiddleware::class);
+        $this->registerMiddleware('*', AuthMiddleware::class);
+        $this->registerMiddleware('ticket', new RoleMiddleware(['participant']));
+        $this->registerMiddleware('reserve', new RoleMiddleware(['participant']));
+
     }
 
     public function index()
@@ -29,12 +32,22 @@ class EventController extends Controller
     public function details($id)
     {
         $data['event'] = Event::getEventById($id);
+        if ($data['event']) {
+            $data['ticket'] = Ticket::getEventTicket($data['event']['id']);
+        }
         $this->view('detail', $data);
     }
 
     public function ticket()
     {
         $this->view('ticket');
+    }
+    public function reserve($ticketId)
+    {
+        $user = unserialize($_SESSION['user']);
+        $user->reserveTicket($ticketId);
+
+        $this->redirect('ticket');
     }
 }
 
