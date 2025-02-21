@@ -5,6 +5,7 @@ use App\Core\Controller;
 use App\Middlewares\RoleMiddleware;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\Ticket;
 
 class OrganizerController extends Controller
 {
@@ -121,9 +122,11 @@ class OrganizerController extends Controller
         ];
 
         $event = new Event();
-        $result = $event->addEvent($eventData, $id_organisateur, $imageName);
+        $eventId = $event->addEvent($eventData, $id_organisateur, $imageName);
 
-        if ($result) {
+        if ($eventId) {
+            $ticket = new Ticket('null', 'paid', (int) $_POST['capacite'], (float) $_POST['prix'], $eventId);
+            $ticket->save();
             $_SESSION['success'] = 'Event created successfully!';
             $this->redirect('OrganizerController/events');
         } else {
