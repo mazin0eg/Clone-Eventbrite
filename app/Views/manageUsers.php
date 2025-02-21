@@ -7,6 +7,8 @@
   <title>Evento - Manage Users</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script>
     tailwind.config = {
       theme: {

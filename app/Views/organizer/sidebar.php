@@ -1,13 +1,31 @@
 <!-- Sidebar -->
 <?php
 if (isset($_SESSION['error'])) {
-    echo "<script>alert('{$_SESSION['error']}')</script>";
+    echo "<script>
+        Swal.fire({
+            title: 'Error!',
+            text: '{$_SESSION['error']}',
+            icon: 'error',
+            background: '#1F2937',
+            color: '#F3F4F6',
+            confirmButtonColor: '#DB2777'
+        });
+    </script>";
     unset($_SESSION['error']);
 }
 
 if (isset($_SESSION['message'])) {
-    echo "<script>alert('{$_SESSION['message']}')</script>";
-    unset($_SESSION['success']);
+    echo "<script>
+        Swal.fire({
+            title: 'Success!',
+            text: '{$_SESSION['message']}',
+            icon: 'success',
+            background: '#1F2937',
+            color: '#F3F4F6',
+            confirmButtonColor: '#6D28D9'
+        });
+    </script>";
+    unset($_SESSION['message']);
 }
 ?>
 <aside class="w-64 glassmorphism fixed h-full transition-transform duration-300 z-50" id="sidebar">
