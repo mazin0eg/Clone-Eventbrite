@@ -8,14 +8,14 @@ use PDOException;
 
 abstract class User
 {
-    private $id;
-    private $avatar;
-    private $username;
-    private $email;
-    private $phone;
-    private $password;
-    private $role;
-    private $active;
+    protected $id;
+    protected $avatar;
+    protected $username;
+    protected $email;
+    protected $phone;
+    protected $password;
+    protected $role;
+    protected $active;
 
     public function __construct($id, $email, $avatar = null, $username = null, $phone = null, $password = null, $role = null, $active = true)
     {
