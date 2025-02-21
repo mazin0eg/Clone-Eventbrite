@@ -17,6 +17,10 @@ class EventController extends Controller
         $this->registerMiddleware('ticket', new RoleMiddleware(['participant']));
         $this->registerMiddleware('reserve', new RoleMiddleware(['participant']));
 
+        $this->registerMiddleware('*', AuthMiddleware::class);
+        $this->registerMiddleware('ticket', new RoleMiddleware(['participant']));
+        $this->registerMiddleware('reserve', new RoleMiddleware(['participant']));
+
     }
 
     public function index()
@@ -33,6 +37,9 @@ class EventController extends Controller
     public function details($id)
     {
         $data['event'] = Event::getEventById($id);
+        if ($data['event']) {
+            $data['ticket'] = Ticket::getEventTicket($data['event']['id']);
+        }
         if ($data['event']) {
             $data['ticket'] = Ticket::getEventTicket($data['event']['id']);
         }
