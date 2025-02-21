@@ -152,7 +152,10 @@
                                     <div class="p-4">
                                         <div class="flex justify-between items-start mb-2">
                                             <h3 class="text-xl font-semibold text-textColor">
-                                                <?= htmlspecialchars($event['titre']) ?>
+                                                <a href="<?= ROOTURL ?>/EventController/details/<?= htmlspecialchars($event['id']) ?>"
+                                                    class="hover:text-accent transition-all">
+                                                    <?= htmlspecialchars($event['titre']) ?>
+                                                </a>
                                             </h3>
                                             <span class="px-3 py-1 rounded-full bg-primary/20 text-accent text-sm">
                                                 $<?= htmlspecialchars($event['prix']) ?>

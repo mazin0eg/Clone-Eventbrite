@@ -36,7 +36,8 @@
         <!-- Profile Section -->
         <div class="flex flex-col items-center pt-24">
             <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-primary">
-                <img src="profile-placeholder.png" alt="Profile Picture" class="w-full h-full object-cover">
+                <img src="<?= ROOTURL . '/storage/uploads/' . htmlspecialchars($data['user']->getAvatar()) ?>"
+                    alt="Profile Picture" class="w-full h-full object-cover">
                 <label for="avatar"
                     class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
                     <i class="bx bx-camera text-white text-2xl"></i>
